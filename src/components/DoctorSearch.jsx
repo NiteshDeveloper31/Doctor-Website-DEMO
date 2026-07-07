@@ -1,16 +1,11 @@
 import React from 'react';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, CalendarDays } from 'lucide-react';
+import { specialtiesData } from './Specialties';
 
-export default function DoctorSearch({ searchQuery, setSearchQuery, selectedSpecialty, setSelectedSpecialty }) {
-  const specialties = [
-    "All",
-    "Cardiology",
-    "Pediatrics",
-    "Orthopedics",
-    "Gynecology",
-    "Neurology",
-    "Dermatology"
-  ];
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+export default function DoctorSearch({ searchQuery, setSearchQuery, selectedSpecialty, setSelectedSpecialty, selectedDay, setSelectedDay }) {
+  const specialties = ["All", ...specialtiesData.map((s) => s.name)];
 
   return (
     <div className="w-full space-y-6">
@@ -25,6 +20,21 @@ export default function DoctorSearch({ searchQuery, setSearchQuery, selectedSpec
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:border-medical-500 dark:focus:border-medical-500 focus:ring-2 focus:ring-medical-500/20 dark:focus:ring-medical-500/10 focus:outline-none transition-all duration-200 shadow-sm text-slate-850 dark:text-slate-100 placeholder:text-slate-400"
           />
+        </div>
+
+        {/* Day of week filter */}
+        <div className="relative md:w-56 shrink-0">
+          <CalendarDays className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5 pointer-events-none" />
+          <select
+            value={selectedDay}
+            onChange={(e) => setSelectedDay(e.target.value)}
+            className="w-full pl-12 pr-4 py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:border-medical-500 dark:focus:border-medical-500 focus:ring-2 focus:ring-medical-500/20 dark:focus:ring-medical-500/10 focus:outline-none transition-all duration-200 shadow-sm text-slate-850 dark:text-slate-100 appearance-none cursor-pointer font-semibold text-sm"
+          >
+            <option value="All">Any OPD Day</option>
+            {DAYS.map((day) => (
+              <option key={day} value={day}>{day}</option>
+            ))}
+          </select>
         </div>
 
         {/* Filter Indicator for visual polish */}

@@ -14,24 +14,22 @@ export default function DoctorImage({ src, name = '', specialty = '', className 
     return cleanName.slice(0, 2).toUpperCase();
   };
 
-  // Select customized medical background color based on department
+  // Deterministically map any department name to a stable color, so new
+  // specialities added to doctors.js never need a manual switch-case entry.
+  const DEPT_COLORS = [
+    'bg-rose-500 text-white', 'bg-sky-500 text-white', 'bg-amber-500 text-white',
+    'bg-purple-500 text-white', 'bg-indigo-500 text-white', 'bg-teal-500 text-white',
+    'bg-cyan-500 text-white', 'bg-emerald-500 text-white', 'bg-orange-500 text-white',
+    'bg-violet-500 text-white', 'bg-pink-500 text-white', 'bg-lime-600 text-white',
+  ];
+
   const getBgColorClass = (dept) => {
-    switch (dept) {
-      case 'Cardiology':
-        return 'bg-rose-500 text-white';
-      case 'Pediatrics':
-        return 'bg-sky-500 text-white';
-      case 'Orthopedics':
-        return 'bg-amber-500 text-white';
-      case 'Gynecology':
-        return 'bg-purple-500 text-white';
-      case 'Neurology':
-        return 'bg-indigo-500 text-white';
-      case 'Dermatology':
-        return 'bg-teal-500 text-white';
-      default:
-        return 'bg-cyan-500 text-white';
+    if (!dept) return DEPT_COLORS[0];
+    let hash = 0;
+    for (let i = 0; i < dept.length; i++) {
+      hash = (hash * 31 + dept.charCodeAt(i)) >>> 0;
     }
+    return DEPT_COLORS[hash % DEPT_COLORS.length];
   };
 
   if (error || !src) {

@@ -29,6 +29,11 @@ export default function DoctorCard({ doctor, onSelectDoctor, onViewProfile }) {
         <h3 className="text-xs font-black text-white uppercase tracking-widest">
           {doctor.name}
         </h3>
+        {doctor.designation && (
+          <p className="text-[9px] font-bold text-white/85 uppercase tracking-wider mt-0.5">
+            {doctor.designation}
+          </p>
+        )}
       </div>
 
       {/* 3. Card Body Details */}
@@ -78,7 +83,7 @@ export default function DoctorCard({ doctor, onSelectDoctor, onViewProfile }) {
         <div>
           <div className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5 flex items-center gap-1">
             <Clock className="h-3 w-3" />
-            <span>Today's Available Schedules</span>
+            <span>OPD Days: {doctor.availability}</span>
           </div>
           <div className="flex flex-wrap gap-1">
             {doctor.slots.slice(0, 3).map((slot, idx) => (

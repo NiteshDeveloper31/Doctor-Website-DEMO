@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, ShieldAlert, FileText, Clock, CreditCard, Video, User, Phone, Upload, CheckCircle } from 'lucide-react';
+import { Calendar, ShieldAlert, FileText, Clock, CreditCard, Video, User, Phone, Upload, CheckCircle, Zap, MapPin, ClipboardList, Stethoscope, FlaskConical, HeartPulse, PhoneCall } from 'lucide-react';
 
 export default function BookingFormPage({ doctors = [], selectedDoctor, setSelectedDoctor, onBookingSubmit }) {
   const [formData, setFormData] = useState({
@@ -16,12 +16,6 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
-
-  // Prescription Scanner OCR states
-  const [isScanning, setIsScanning] = useState(false);
-  const [scanProgress, setScanProgress] = useState(0);
-  const [scanMessage, setScanMessage] = useState('');
-  const [scanSuccess, setScanSuccess] = useState(false);
 
   // Sync selected doctor from cards/modal
   useEffect(() => {
@@ -40,12 +34,6 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
     return today.toISOString().split('T')[0];
   };
 
-  const getTomorrowDateString = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split('T')[0];
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -59,56 +47,6 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
     if (file) {
       setFormData(prev => ({ ...prev, fileName: file.name }));
     }
-  };
-
-  const handlePrescriptionScan = () => {
-    setIsScanning(true);
-    setScanProgress(10);
-    setScanMessage('Connecting to Aarogya OCR Cloud...');
-
-    setTimeout(() => {
-      setScanProgress(35);
-      setScanMessage('Uploading prescription file structure...');
-    }, 700);
-
-    setTimeout(() => {
-      setScanProgress(60);
-      setScanMessage('Extracting handwritten patient profiles & clinic details...');
-    }, 1400);
-
-    setTimeout(() => {
-      setScanProgress(85);
-      setScanMessage('Matching recommended Orthopedic consultant (Dr. Rohit Pawar)...');
-    }, 2100);
-
-    setTimeout(() => {
-      setScanProgress(100);
-      setScanMessage('Form populated successfully!');
-      
-      setFormData(prev => ({
-        ...prev,
-        patientName: 'Rohan Verma',
-        phone: '9876543210',
-        email: 'rohan.verma@gmail.com',
-        doctorId: '2', // Dr. Rohit Pawar (Orthopedics)
-        reason: 'Severe chronic knee pain and joint stiffness advised for immediate orthopedic clinical review.',
-        date: getTomorrowDateString(),
-        fileName: 'prescription_noida_verma.jpg'
-      }));
-
-      // Automatically sync the doctor selection callback
-      const orthodoc = doctors.find(doc => doc.id === 2);
-      if (orthodoc && setSelectedDoctor) {
-        setSelectedDoctor(orthodoc);
-      }
-
-      setScanSuccess(true);
-    }, 2800);
-
-    setTimeout(() => {
-      setIsScanning(false);
-      setScanSuccess(false);
-    }, 4500);
   };
 
   const validateForm = () => {
@@ -181,7 +119,34 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
     {
       q: "Is insurance accepted for OPD visits?",
       a: "Yes, we accept major corporate insurance policies and TPA plans. Please visit our TPA assistance desk on the ground floor."
+    },
+    {
+      q: "Do I need a prior referral to book a specialist?",
+      a: "No referral is required for most departments. You can directly book a specialist consultation online or at the OPD desk."
+    },
+    {
+      q: "What if my chosen time slot is unavailable on arrival?",
+      a: "Our OPD desk will accommodate you in the next available slot the same day, or offer to reschedule at your convenience."
+    },
+    {
+      q: "Can I book an appointment for a family member?",
+      a: "Yes, you may enter the patient's details directly in the booking form even if the contact number belongs to a family member."
     }
+  ];
+
+  const opdTimings = [
+    { dept: "General OPD", time: "08:00 AM - 08:00 PM (Mon - Sat)" },
+    { dept: "Specialist Consultations", time: "09:00 AM - 05:00 PM (Mon - Sat)" },
+    { dept: "Emergency & Trauma", time: "Available 24/7" },
+    { dept: "Diagnostics & Lab", time: "07:00 AM - 09:00 PM (All Days)" }
+  ];
+
+  const admissionSteps = [
+    "Present your OPD slip and doctor's advice at the Admission Desk to begin the pre-admission formalities.",
+    "Complete insurance/TPA pre-authorization or advance payment as applicable to your treatment plan.",
+    "Our nursing team will guide you to your assigned ward or room and orient you to hospital protocols.",
+    "On discharge day, the treating doctor issues a discharge summary along with medication and follow-up advice.",
+    "Settle final billing at the Discharge Desk; TPA patients can process cashless settlement directly with our insurance desk."
   ];
 
   return (
@@ -192,70 +157,8 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Column 1: Detailed Booking Form (Spans 7 cols on desktop) */}
-          <div className="lg:col-span-7 bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 rounded-2xl p-6 md:p-8 shadow-sm relative overflow-hidden">
-            
-            {/* Prescription Scanning Overlay */}
-            {isScanning && (
-              <div className="absolute inset-0 bg-slate-900/95 backdrop-blur-xs z-30 flex flex-col items-center justify-center text-center p-6 space-y-4">
-                <style>{`
-                  @keyframes scan-beam {
-                    0% { top: 0%; opacity: 0.8; }
-                    50% { top: 100%; opacity: 1; }
-                    100% { top: 0%; opacity: 0.8; }
-                  }
-                `}</style>
-                <div 
-                  className="absolute left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-cyan-brand to-transparent shadow-[0_0_12px_#00bcd4]" 
-                  style={{
-                    animation: 'scan-beam 2.2s ease-in-out infinite',
-                  }}
-                ></div>
-
-                <div className="p-4 bg-cyan-950/40 border border-cyan-800/40 rounded-full text-cyan-brand animate-pulse">
-                  <Upload className="h-8 w-8" />
-                </div>
-
-                <h3 className="text-sm font-black text-white uppercase tracking-wider">
-                  Prescription OCR Scanner Active
-                </h3>
-
-                <div className="w-56 bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700">
-                  <div 
-                    className="bg-cyan-brand h-full transition-all duration-300 shadow-[0_0_8px_#00bcd4]" 
-                    style={{ width: `${scanProgress}%` }}
-                  ></div>
-                </div>
-
-                <span className="text-[10px] font-bold text-cyan-455 uppercase tracking-widest block max-w-xs leading-relaxed">
-                  {scanMessage}
-                </span>
-
-                {scanSuccess && (
-                  <div className="p-2 bg-emerald-950/40 border border-emerald-800/40 rounded-lg text-emerald-450 text-[9px] font-bold uppercase tracking-wider">
-                    Success! Checkup data parsed & populated.
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* OCR Auto-Fill banner */}
-            <div className="mb-5 p-3.5 bg-slate-50 dark:bg-slate-850 rounded-xl border border-slate-150/80 dark:border-slate-800 flex items-center justify-between gap-4">
-              <div className="space-y-0.5">
-                <span className="text-[9px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">
-                  ⚡ Smart Registration
-                </span>
-                <p className="text-[9.5px] text-slate-500 dark:text-slate-400 font-semibold leading-tight">
-                  Have a doctor's prescription? Auto-fill the entire booking form in one click.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={handlePrescriptionScan}
-                className="px-3 py-2 bg-gradient-to-r from-cyan-brand to-[#0097a7] hover:from-cyan-600 hover:to-[#00838f] text-white font-extrabold text-[9px] uppercase tracking-widest rounded-lg transition-colors cursor-pointer shrink-0 shadow-sm"
-              >
-                Scan Prescription
-              </button>
-            </div>
+          <div className="lg:col-span-7 space-y-6">
+          <div className="bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 rounded-2xl p-6 md:p-8 shadow-sm">
 
             <form onSubmit={handleSubmit} className="space-y-6">
               
@@ -438,32 +341,33 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
             </form>
           </div>
 
-          {/* Column 2: Booking Assistance & Info Sidebar (Spans 5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* Emergency Hotline Banner */}
-            <div className="bg-rose-50 dark:bg-rose-950/20 border border-rose-100 dark:border-rose-900/50 p-5 rounded-2xl space-y-3.5">
-              <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400">
-                <ShieldAlert className="h-5 w-5 shrink-0" />
-                <h3 className="text-xs font-black uppercase tracking-wider leading-none">Emergency Trauma Line</h3>
-              </div>
-              <p className="text-[10px] text-rose-500 dark:text-rose-405 leading-relaxed font-semibold">
-                Facing a severe clinical issue or emergency? Do not wait. Call our trauma response network immediately.
-              </p>
-              <a
-                href="tel:18002006000"
-                className="block text-center py-2 bg-rose-600 hover:bg-rose-700 text-white font-black text-[10px] uppercase tracking-wider rounded-lg transition-colors shadow-sm"
-              >
-                Call: 1800-200-6000
-              </a>
+            {/* Why Book Online */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 p-5 rounded-2xl space-y-4">
+              <h3 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider border-l-2 border-cyan-brand pl-2.5 flex items-center gap-1.5">
+                <Zap className="h-3.5 w-3.5 text-cyan-brand" />
+                Why Book Online
+              </h3>
+              <ul className="space-y-2.5">
+                {[
+                  "Guaranteed slot confirmation without waiting in the OPD queue.",
+                  "Instant email confirmation with your appointment ticket ID.",
+                  "Choose your preferred doctor, date, and consultation mode upfront.",
+                  "Free rescheduling up to 2 hours before your slot."
+                ].map((point, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-[10.5px] font-semibold text-slate-600 dark:text-slate-350">
+                    <CheckCircle className="h-3.5 w-3.5 text-cyan-brand shrink-0 mt-0.5" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Visit Guidelines */}
+            {/* Visit Guidelines (First-Visit Protocols) */}
             <div className="bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 p-5 rounded-2xl space-y-4">
               <h3 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider border-l-2 border-cyan-brand pl-2.5">
                 First-Visit Protocols
               </h3>
-              
+
               <ul className="space-y-3.5">
                 <li className="flex gap-2.5 items-start">
                   <Clock className="h-4.5 w-4.5 text-cyan-brand shrink-0 mt-0.5" />
@@ -495,6 +399,69 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
                   </div>
                 </li>
               </ul>
+            </div>
+
+          </div>
+
+          {/* Column 2: Booking Assistance & Info Sidebar (Spans 5 cols) */}
+          <div className="lg:col-span-5 space-y-6">
+
+            {/* Emergency Hotline Banner */}
+            <div className="bg-rose-50 dark:bg-rose-950/20 border border-rose-100 dark:border-rose-900/50 p-5 rounded-2xl space-y-3.5">
+              <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400">
+                <ShieldAlert className="h-5 w-5 shrink-0" />
+                <h3 className="text-xs font-black uppercase tracking-wider leading-none">Emergency Trauma Line</h3>
+              </div>
+              <p className="text-[10px] text-rose-500 dark:text-rose-405 leading-relaxed font-semibold">
+                Facing a severe clinical issue or emergency? Do not wait. Call our trauma response network immediately.
+              </p>
+              <a
+                href="tel:18002006000"
+                className="block text-center py-2 bg-rose-600 hover:bg-rose-700 text-white font-black text-[10px] uppercase tracking-wider rounded-lg transition-colors shadow-sm"
+              >
+                Call: 1800-200-6000
+              </a>
+            </div>
+
+            {/* OPD Timings Table */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 p-5 rounded-2xl space-y-3">
+              <h3 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider border-l-2 border-cyan-brand pl-2.5">
+                OPD Timings
+              </h3>
+              <table className="w-full text-[10.5px]">
+                <tbody>
+                  {opdTimings.map((row, idx) => (
+                    <tr key={idx} className="border-t border-slate-100 dark:border-slate-800 first:border-t-0">
+                      <td className="py-2 font-bold text-slate-600 dark:text-slate-350">{row.dept}</td>
+                      <td className="py-2 text-right font-extrabold text-slate-800 dark:text-slate-200">{row.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Address & Map Thumbnail */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 p-5 rounded-2xl space-y-3">
+              <h3 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider border-l-2 border-cyan-brand pl-2.5 flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5 text-cyan-brand" />
+                Our Location
+              </h3>
+              <p className="text-[10.5px] text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
+                Aarogya Life Campus, Block B, Sector 62, Noida, Uttar Pradesh - 201301, India
+              </p>
+              <div
+                className="relative h-28 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800"
+                style={{
+                  backgroundImage: 'linear-gradient(0deg, rgba(0,188,212,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,188,212,0.08) 1px, transparent 1px)',
+                  backgroundSize: '10px 10px',
+                }}
+              >
+                <div className="absolute inset-0 bg-slate-100 dark:bg-slate-900" style={{ opacity: 0.6 }} />
+                <div className="absolute inset-0 flex items-center justify-center gap-1.5 text-cyan-brand dark:text-cyan-400 font-bold text-[10px] uppercase tracking-wider">
+                  <MapPin className="h-4 w-4" />
+                  <span>500m from Sector 62 Metro Station</span>
+                </div>
+              </div>
             </div>
 
             {/* FAQs Accordion */}
@@ -530,6 +497,66 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
 
           </div>
 
+        </div>
+
+        {/* OPD Consultation Procedure */}
+        <div className="bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 rounded-2xl p-6 md:p-8 space-y-6">
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <span className="text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">
+              STEP BY STEP
+            </span>
+            <h3 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-wider">
+              OPD Consultation Procedure
+            </h3>
+            <div className="h-1 w-16 bg-cyan-brand mx-auto"></div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {[
+              { title: "Registration", desc: "Complete OPD registration online or at the front desk with your ID and appointment ticket.", icon: ClipboardList },
+              { title: "Consultation", desc: "Meet your chosen specialist at the scheduled slot for examination and diagnosis.", icon: Stethoscope },
+              { title: "Diagnostics", desc: "If advised, complete lab tests or imaging at our on-campus diagnostic center.", icon: FlaskConical },
+              { title: "Treatment", desc: "Begin your prescribed treatment plan, therapy, or minor procedure as recommended.", icon: HeartPulse },
+              { title: "Follow-up", desc: "Schedule a follow-up visit or teleconsultation to track your recovery progress.", icon: PhoneCall },
+            ].map((step, index) => {
+              const StepIcon = step.icon;
+              return (
+                <div key={index} className="flex flex-col items-center text-center gap-3">
+                  <div className="relative">
+                    <div className="h-14 w-14 rounded-2xl bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-100 dark:border-cyan-950 flex items-center justify-center text-cyan-brand dark:text-cyan-400">
+                      <StepIcon className="h-6 w-6" />
+                    </div>
+                    <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-cyan-brand text-white text-[10px] font-black flex items-center justify-center">
+                      {index + 1}
+                    </span>
+                  </div>
+                  <h4 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wide">
+                    {step.title}
+                  </h4>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
+                    {step.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Admission / Discharge Procedure */}
+        <div className="bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 rounded-2xl p-6 md:p-8 space-y-4">
+          <h3 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider border-l-2 border-cyan-brand pl-2.5">
+            Admission & Discharge Procedure
+          </h3>
+          <ol className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+            {admissionSteps.map((step, index) => (
+              <li key={index} className="flex items-start gap-2.5 text-xs text-slate-600 dark:text-slate-350 font-medium leading-relaxed">
+                <span className="h-5 w-5 rounded-full bg-cyan-50 dark:bg-cyan-950/30 text-cyan-brand dark:text-cyan-400 text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
         </div>
 
       </div>

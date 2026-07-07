@@ -1,7 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import hospitalHero from '../assets/surgeon_hero.jpg';
 
+const SLIDES = [
+  {
+    image: hospitalHero,
+    eyebrow: 'EXCELLENCE IN CARE & HEALING',
+    headline: 'ADVANCED HEALTHCARE AND COMPASSIONATE TREATMENT.',
+    subtitle: 'Empowering Lives Through Latest Medical Expertise and Personalized Care.',
+  },
+  {
+    image: hospitalHero,
+    eyebrow: '17 SPECIALTIES, ONE CAMPUS',
+    headline: 'A MULTI-SPECIALTY HOSPITAL BUILT FOR SERIOUS CARE.',
+    subtitle: 'From routine OPD visits to complex surgeries, our Noida campus is equipped for every stage of your care journey.',
+  },
+  {
+    image: hospitalHero,
+    eyebrow: '24/7 EMERGENCY & TRAUMA',
+    headline: 'RAPID RESPONSE WHEN EVERY MINUTE MATTERS.',
+    subtitle: 'Round-the-clock emergency, trauma, and critical care teams supported by a dedicated ambulance fleet across Noida.',
+  },
+];
+
 export default function Hero({ doctors = [], selectedDoctor, setSelectedDoctor, onBookingSubmit, scrollToSection }) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+    }, 5500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const goToSlide = (index) => setCurrentSlide(index);
+  const goPrev = () => setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
+  const goNext = () => setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+
   const [formData, setFormData] = useState({
     doctorId: '',
     patientName: '',
@@ -99,32 +134,76 @@ export default function Hero({ doctors = [], selectedDoctor, setSelectedDoctor, 
   return (
     <section id="home" className="w-full relative bg-slate-50 dark:bg-slate-955 pb-20">
       
-      {/* 1. Full-Width Surgeon Banner Image */}
+      {/* 1. Full-Width Hero Slider (3 slides) */}
       <div className="relative w-full h-[360px] md:h-[420px] overflow-hidden">
-        {/* Background Image */}
-        <img
-          src={hospitalHero}
-          alt="Medico Hospital Building"
-          className="w-full h-full object-cover object-center absolute inset-0"
-        />
-        {/* Light/Dark horizontal gradient overlay */}
-        <div className="absolute inset-y-0 left-0 w-full md:w-[55%] bg-gradient-to-r from-slate-50/85 via-slate-50/40 to-transparent dark:from-slate-900/85 dark:via-slate-900/40 dark:to-transparent"></div>
+        {SLIDES.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-700 ${index === currentSlide ? 'opacity-100 z-1' : 'opacity-0 pointer-events-none'}`}
+          >
+            {/* Background Image */}
+            <img
+              src={slide.image}
+              alt={slide.headline}
+              className="w-full h-full object-cover object-center absolute inset-0"
+            />
+            {/* Light/Dark horizontal gradient overlay */}
+            <div className="absolute inset-y-0 left-0 w-full md:w-[55%] bg-gradient-to-r from-slate-50/85 via-slate-50/40 to-transparent dark:from-slate-900/85 dark:via-slate-900/40 dark:to-transparent"></div>
 
-        {/* Text Overlays */}
-        <div className="absolute inset-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-start gap-2.5 z-10 pb-16">
-          
-          <span className="text-[10px] font-bold text-cyan-brand dark:text-cyan-400 uppercase tracking-widest leading-none">
-            EXCELLENCE IN CARE & HEALING
-          </span>
+            {/* Text Overlays */}
+            <div className="absolute inset-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-start gap-2.5 z-10 pb-16">
+              <span className="text-[10px] font-bold text-cyan-brand dark:text-cyan-400 uppercase tracking-widest leading-none">
+                {slide.eyebrow}
+              </span>
 
-          <h1 className="text-2xl sm:text-3xl md:text-[40px] font-black text-[#132d43] dark:text-white leading-tight max-w-xl">
-            ADVANCED HEALTHCARE AND COMPASSIONATE TREATMENT.
-          </h1>
+              <h1 className="text-2xl sm:text-3xl md:text-[40px] font-black text-[#132d43] dark:text-white leading-tight max-w-xl">
+                {slide.headline}
+              </h1>
 
-          <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 max-w-lg font-medium">
-            Empowering Lives Through Latest Medical Expertise and Personalized Care.
-          </p>
+              <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 max-w-lg font-medium">
+                {slide.subtitle}
+              </p>
 
+              <button
+                type="button"
+                onClick={() => scrollToSection('booking')}
+                className="mt-2 px-6 py-3 bg-cyan-brand hover:bg-cyan-600 text-white font-extrabold text-xs uppercase tracking-wider rounded-lg shadow-md transition-colors cursor-pointer"
+              >
+                Book Appointment
+              </button>
+            </div>
+          </div>
+        ))}
+
+        {/* Prev / Next controls */}
+        <button
+          type="button"
+          onClick={goPrev}
+          aria-label="Previous slide"
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/70 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-full shadow transition-colors cursor-pointer"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          onClick={goNext}
+          aria-label="Next slide"
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/70 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-full shadow transition-colors cursor-pointer"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+
+        {/* Dot indicators */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          {SLIDES.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              className={`h-2 rounded-full transition-all cursor-pointer ${index === currentSlide ? 'w-6 bg-cyan-brand' : 'w-2 bg-white/70 dark:bg-slate-600'}`}
+            />
+          ))}
         </div>
       </div>
 

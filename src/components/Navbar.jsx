@@ -127,11 +127,11 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
 
           {/* Mobile Hotline */}
           <a
-            href="tel:18002006000"
+            href="tel:+919999999911"
             className="flex items-center justify-center gap-3.5 w-full py-3.5 bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-450 border border-rose-200 dark:border-rose-900/50 rounded-xl font-extrabold text-xs"
           >
             <PhoneCall className="h-4 w-4" />
-            <span>Emergency: 1800-200-6000</span>
+            <span>Emergency: +91 99999-99911</span>
           </a>
         </div>
       )}

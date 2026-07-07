@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Star, Calendar, Clock, Award, Landmark, Stethoscope, Briefcase, IndianRupee } from 'lucide-react';
+import { X, Star, Calendar, Clock, Award, Landmark, Stethoscope, Briefcase, IndianRupee, Building2, Tag, BookOpen } from 'lucide-react';
 import DoctorImage from './DoctorImage';
 
 export default function DoctorModal({ doctor, isOpen, onClose, onBookAppointment }) {
@@ -45,6 +45,11 @@ export default function DoctorModal({ doctor, isOpen, onClose, onBookAppointment
               <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white leading-tight">
                 {doctor.name}
               </h3>
+              {doctor.designation && (
+                <p className="text-xs font-bold text-cyan-brand dark:text-cyan-400 uppercase tracking-wider">
+                  {doctor.designation}
+                </p>
+              )}
               <p className="text-sm text-slate-500 dark:text-slate-400 font-semibold flex items-center gap-2">
                 <Award className="h-4.5 w-4.5 text-medical-500" />
                 {doctor.qualifications}
@@ -92,23 +97,83 @@ export default function DoctorModal({ doctor, isOpen, onClose, onBookAppointment
             </p>
           </div>
 
-          {/* Hospital Department timings */}
+          {/* Hospital Department + OPD schedule table */}
           <div className="space-y-2">
             <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Landmark className="h-4 w-4 text-medical-500" />
-              <span>OPD Timings & Department</span>
+              <span>OPD Schedule & Department</span>
             </h4>
-            <div className="bg-slate-50 dark:bg-slate-900/30 p-4 rounded-2xl border border-slate-200/50 dark:border-slate-800/50 flex justify-between text-xs text-slate-600 dark:text-slate-350">
+            <div className="bg-slate-50 dark:bg-slate-900/30 p-4 rounded-2xl border border-slate-200/50 dark:border-slate-800/50 space-y-3">
               <div>
-                <span className="block text-slate-400 font-bold uppercase tracking-wider">Department</span>
-                <span className="font-extrabold text-slate-800 dark:text-slate-200 mt-0.5 block">{doctor.specialization} Medicine</span>
+                <span className="block text-[10px] text-slate-400 font-bold uppercase tracking-wider">Department</span>
+                <span className="font-extrabold text-slate-800 dark:text-slate-200 mt-0.5 block text-sm">{doctor.specialization}</span>
               </div>
-              <div className="text-right">
-                <span className="block text-slate-400 font-bold uppercase tracking-wider">Clinic Timing</span>
-                <span className="font-extrabold text-slate-800 dark:text-slate-200 mt-0.5 block">09:00 AM - 05:00 PM</span>
-              </div>
+              {doctor.opdSchedule && doctor.opdSchedule.length > 0 && (
+                <table className="w-full text-xs">
+                  <tbody>
+                    {doctor.opdSchedule.map((row, idx) => (
+                      <tr key={idx} className="border-t border-slate-200/60 dark:border-slate-800/60 first:border-t-0">
+                        <td className="py-2 font-bold text-slate-600 dark:text-slate-350">{row.day}</td>
+                        <td className="py-2 text-right font-extrabold text-slate-800 dark:text-slate-200">{row.time}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
+
+          {/* Previous Hospitals Worked */}
+          {doctor.previousHospitals && doctor.previousHospitals.length > 0 && (
+            <div className="space-y-2">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <Building2 className="h-4 w-4 text-medical-500" />
+                <span>Previous Hospitals Worked</span>
+              </h4>
+              <ul className="space-y-1.5">
+                {doctor.previousHospitals.map((hospital, idx) => (
+                  <li key={idx} className="text-sm text-slate-600 dark:text-slate-350 flex items-center gap-2">
+                    <div className="h-1.5 w-1.5 rounded-full bg-cyan-brand shrink-0" />
+                    <span>{hospital}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Areas of Expertise */}
+          {doctor.expertiseAreas && doctor.expertiseAreas.length > 0 && (
+            <div className="space-y-2">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <Tag className="h-4 w-4 text-medical-500" />
+                <span>Areas of Expertise</span>
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {doctor.expertiseAreas.map((area, idx) => (
+                  <span key={idx} className="px-3 py-1.5 bg-cyan-50 dark:bg-cyan-950/20 text-cyan-brand dark:text-cyan-400 font-bold text-[11px] rounded-full border border-cyan-100 dark:border-cyan-950">
+                    {area}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Publications / Achievements */}
+          {doctor.publications && doctor.publications.length > 0 && (
+            <div className="space-y-2">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <BookOpen className="h-4 w-4 text-medical-500" />
+                <span>Publications & Achievements</span>
+              </h4>
+              <ul className="space-y-1.5">
+                {doctor.publications.map((pub, idx) => (
+                  <li key={idx} className="text-sm text-slate-600 dark:text-slate-350 italic">
+                    "{pub}"
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Time Slots Selection */}
           <div className="space-y-3.5">

@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
+import TopBar from './components/TopBar';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Marquee from './components/Marquee';
+import AboutHospital from './components/AboutHospital';
 import FeatureGrid from './components/FeatureGrid';
+import DepartmentsPreview from './components/DepartmentsPreview';
+import FeaturedDoctors from './components/FeaturedDoctors';
+import FinalCTA from './components/FinalCTA';
 import DoctorSearch from './components/DoctorSearch';
 import DoctorCard from './components/DoctorCard';
 import DoctorModal from './components/DoctorModal';
 import SuccessModal from './components/SuccessModal';
 import LatestNews from './components/LatestNews';
+import NewsDetailPage from './components/NewsDetailPage';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import Specialties from './components/Specialties';
@@ -17,6 +24,25 @@ import SubPageHero from './components/SubPageHero';
 
 import { doctorsData } from './data/doctors';
 import { initialAppointments } from './data/appointments';
+
+// Expands an `availability` string (e.g. "Mon - Sat", "Mon, Wed, Fri", "24/7 Emergency")
+// into the set of weekdays a doctor is available on, for the Find Doctors day filter.
+const DAYS_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const expandAvailability = (availability) => {
+  if (!availability) return [];
+  if (availability.includes("24/7")) return DAYS_ORDER;
+  return availability.split(",").flatMap((part) => {
+    part = part.trim();
+    if (part.includes("-")) {
+      const [start, end] = part.split("-").map((s) => s.trim());
+      const startIdx = DAYS_ORDER.indexOf(start);
+      const endIdx = DAYS_ORDER.indexOf(end);
+      if (startIdx === -1 || endIdx === -1) return [];
+      return DAYS_ORDER.slice(startIdx, endIdx + 1);
+    }
+    return DAYS_ORDER.includes(part) ? [part] : [];
+  });
+};
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -28,6 +54,7 @@ export default function App() {
   // Search and Filter State
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSpecialty, setSelectedSpecialty] = useState("All");
+  const [selectedDay, setSelectedDay] = useState("All");
 
   // Selected Doctor states
   const [selectedDoctorForBooking, setSelectedDoctorForBooking] = useState(null);
@@ -38,6 +65,20 @@ export default function App() {
 
   // Navigation tracking
   const [activeSection, setActiveSection] = useState('home');
+
+  // News detail "page" tracked via the URL pathname (/news/:slug), so articles
+  // are separately linkable/shareable instead of opening in a modal.
+  const getSlugFromPath = () => {
+    const match = window.location.pathname.match(/^\/news\/(.+)$/);
+    return match ? match[1] : null;
+  };
+  const [newsSlug, setNewsSlug] = useState(getSlugFromPath);
+
+  useEffect(() => {
+    const onPopState = () => setNewsSlug(getSlugFromPath());
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   // Sync dark mode class with HTML element
   useEffect(() => {
@@ -54,13 +95,14 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Filter Doctors list based on search and specialty
+  // Filter Doctors list based on search, specialty, and OPD day
   const filteredDoctors = doctors.filter(doctor => {
     const matchesSpecialty = selectedSpecialty === "All" || doctor.specialization === selectedSpecialty;
     const matchesSearch = doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           doctor.specialization.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           doctor.qualifications.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesSpecialty && matchesSearch;
+    const matchesDay = selectedDay === "All" || expandAvailability(doctor.availability).includes(selectedDay);
+    return matchesSpecialty && matchesSearch && matchesDay;
   });
 
   // Handle direct doctor selection from Card/Modal -> scrolls user directly to booking form input stripe
@@ -73,6 +115,27 @@ export default function App() {
   const handleSelectSpecialtyFromNews = (specialty) => {
     setSelectedSpecialty(specialty);
     scrollToSection('doctors');
+  };
+
+  // Navigate to a news article's own URL (/news/:slug)
+  const openNewsArticle = (slug) => {
+    window.history.pushState({}, '', `/news/${slug}`);
+    setNewsSlug(slug);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Leave the news detail page and restore the normal in-page navigation
+  const closeNewsArticle = () => {
+    window.history.pushState({}, '', '/');
+    setNewsSlug(null);
+    scrollToSection('home');
+  };
+
+  // "Consult Department" CTA from within a news article
+  const handleConsultFromNews = (specialty) => {
+    window.history.pushState({}, '', '/');
+    setNewsSlug(null);
+    handleSelectSpecialtyFromNews(specialty);
   };
 
   // Create appointment handler
@@ -215,19 +278,31 @@ ${newAppointment.reason}
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors duration-300">
       
+      {/* Thin emergency/contact strip */}
+      <TopBar />
+
       {/* Navbar header */}
-      <Navbar 
+      <Navbar
         darkMode={darkMode} 
         setDarkMode={setDarkMode} 
         activeSection={activeSection}
         scrollToSection={scrollToSection}
       />
 
+      {/* News article detail page (own URL: /news/:slug) takes over the main content area */}
+      {newsSlug ? (
+        <NewsDetailPage
+          slug={newsSlug}
+          onBack={closeNewsArticle}
+          onConsultSpecialty={handleConsultFromNews}
+        />
+      ) : (
+      <>
       {/* Conditionally render different pages */}
       {activeSection === 'home' && (
         <>
-          {/* Hero Banner with Integrated Quick Booking stripe */}
-          <Hero 
+          {/* Hero Banner Slider with Integrated Quick Booking stripe */}
+          <Hero
             doctors={doctors}
             selectedDoctor={selectedDoctorForBooking}
             setSelectedDoctor={setSelectedDoctorForBooking}
@@ -235,14 +310,37 @@ ${newAppointment.reason}
             scrollToSection={scrollToSection}
           />
 
-          {/* 4-column Services features directly under Hero */}
-          <FeatureGrid />
+          {/* Scrolling announcements bar */}
+          <Marquee />
+
+          {/* About the hospital */}
+          <AboutHospital />
 
           {/* Detailed Statistics and Advantages panel */}
           <WhyChooseUs />
 
-          {/* Latest Health News Articles */}
-          <LatestNews onSelectSpecialty={handleSelectSpecialtyFromNews} />
+          {/* Departments preview grid */}
+          <DepartmentsPreview
+            onSelectSpecialty={handleSelectSpecialtyFromNews}
+            scrollToSection={scrollToSection}
+          />
+
+          {/* Featured doctors slider */}
+          <FeaturedDoctors
+            doctors={doctors}
+            onSelectDoctor={handleSelectDoctorForBooking}
+            onViewProfile={(doc) => setSelectedDoctorForModal(doc)}
+            scrollToSection={scrollToSection}
+          />
+
+          {/* Facilities grid */}
+          <FeatureGrid />
+
+          {/* Latest Health News & Events */}
+          <LatestNews onOpenArticle={openNewsArticle} />
+
+          {/* Final CTA banner before footer */}
+          <FinalCTA scrollToSection={scrollToSection} />
         </>
       )}
 
@@ -288,11 +386,13 @@ ${newAppointment.reason}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
               
               {/* Search filters */}
-              <DoctorSearch 
+              <DoctorSearch
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
                 selectedSpecialty={selectedSpecialty}
                 setSelectedSpecialty={setSelectedSpecialty}
+                selectedDay={selectedDay}
+                setSelectedDay={setSelectedDay}
               />
 
               {/* Doctors Grid */}
@@ -301,8 +401,8 @@ ${newAppointment.reason}
                   <p className="text-slate-550 dark:text-slate-400 font-semibold text-sm">
                     No specialists found matching your current filter criteria.
                   </p>
-                  <button 
-                    onClick={() => { setSearchQuery(""); setSelectedSpecialty("All"); }}
+                  <button
+                    onClick={() => { setSearchQuery(""); setSelectedSpecialty("All"); setSelectedDay("All"); }}
                     className="mt-3 text-xs font-bold text-cyan-brand hover:underline"
                   >
                     Reset Search Filters
@@ -337,9 +437,11 @@ ${newAppointment.reason}
           <ContactSection />
         </div>
       )}
+      </>
+      )}
 
       {/* Footer disclaimer */}
-      <Footer scrollToSection={scrollToSection} />
+      <Footer scrollToSection={scrollToSection} onSelectSpecialty={handleSelectSpecialtyFromNews} />
 
       {/* Modals area */}
       <DoctorModal 

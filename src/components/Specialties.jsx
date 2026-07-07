@@ -1,132 +1,266 @@
 import React, { useState } from 'react';
-import { Heart, Baby, Bone, Activity, Brain, Sparkles, AlertCircle, ArrowRight, Check, ShieldCheck, Settings, Microscope, Award, FileSpreadsheet, ChevronDown, ChevronUp, Calculator, Clock, X, UserCheck, MessageSquare, Info, ShieldAlert, Search, Apple, Download, TrendingUp } from 'lucide-react';
+import {
+  Heart, Baby, Bone, Activity, Brain, Sparkles, Award, ShieldCheck, Settings, Microscope,
+  Check, ArrowRight, ChevronDown, ChevronUp, Ribbon, Ear, Eye, Thermometer, BrainCircuit,
+  Smile, Syringe, FlaskConical, Dumbbell, Siren, Stethoscope, Building2
+} from 'lucide-react';
 
 const specialtiesData = [
   {
     id: 'Cardiology',
     name: 'Cardiology',
     icon: Heart,
-    description: 'Comprehensive heart care including advanced diagnostic scans and heart failure management.',
-    services: ['Coronary Angioplasty', 'Electrocardiogram (ECG)', 'Preventive Cardiac Care'],
-    tests: ['Echocardiogram (2D Echo)', 'Treadmill Test (TMT)', 'Holter Monitoring (24h)'],
-    stats: '15+ Yrs Exp | 99% Success Rate',
-    color: 'from-rose-500/10 to-rose-500/20 text-rose-500 border-rose-100 dark:border-rose-950/50',
-    procedures: [
-      { name: 'Angioplasty (PTCA)', baseCost: 150000, stay: '2 Days', rehab: '2 Weeks' },
-      { name: 'Pacemaker Implantation', baseCost: 220000, stay: '3 Days', rehab: '4 Weeks' },
-      { name: 'Coronary Artery Bypass (CABG)', baseCost: 350000, stay: '7 Days', rehab: '8 Weeks' }
+    image: 'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?q=80&w=600&auto=format&fit=crop',
+    description: 'Comprehensive heart care including advanced diagnostic scans, coronary interventions, and heart failure management for patients of every age group.',
+    opdDays: 'Mon - Sat, 09:00 AM - 05:00 PM',
+    services: ['Coronary Angioplasty', 'Electrocardiogram (ECG)', 'Preventive Cardiac Care', 'Holter Monitoring (24h)'],
+    doctors: [
+      { name: 'Dr. Rajesh Kumar', qualifications: 'MD, DM (Cardiology) - AIIMS New Delhi' },
+      { name: 'Dr. Sanjana Verma', qualifications: 'MD (Medicine), Fellowship in Cardiology' }
     ],
-    doctorsOnDuty: [
-      { name: 'Dr. Amit Patel', status: 'Available', time: '10:00 AM - 04:00 PM' },
-      { name: 'Dr. S. K. Sharma', status: 'In Surgery', time: '02:00 PM - 06:00 PM' }
-    ]
+    color: 'from-rose-500/10 to-rose-500/20 text-rose-500 border-rose-100 dark:border-rose-950/50'
   },
   {
-    id: 'Pediatrics',
-    name: 'Pediatrics',
-    icon: Baby,
-    description: 'Expert medical care, child growth monitoring, and newborn screening programs.',
-    services: ['Neonatal Intensive Care', 'Child Vaccinations', 'Developmental Pediatrics'],
-    tests: ['Newborn Hearing Screenings', 'Pediatric Pulmonary Tests', 'Immunization Trackers'],
-    stats: '10+ Yrs Exp | 98% Happy Kids',
-    color: 'from-amber-500/10 to-amber-500/20 text-amber-500 border-amber-100 dark:border-amber-950/50',
-    procedures: [
-      { name: 'Newborn Wellness Screening', baseCost: 4500, stay: '0 Days (OPD)', rehab: 'Immediate' },
-      { name: 'Pediatric Asthma Management Plan', baseCost: 8000, stay: '1 Day', rehab: '1 Week' },
-      { name: 'Developmental Assessment Profile', baseCost: 6500, stay: '0 Days (OPD)', rehab: 'Ongoing' }
+    id: 'Oncology',
+    name: 'Oncology',
+    icon: Ribbon,
+    image: 'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?q=80&w=600&auto=format&fit=crop',
+    description: 'Multi-disciplinary cancer care spanning medical, surgical, and radiation oncology, delivered through our dedicated Cancer Institute with survivorship support.',
+    opdDays: 'Mon - Sat, 09:00 AM - 05:00 PM',
+    services: ['Chemotherapy Protocols', 'Surgical Tumor Resection', 'Radiation Therapy Planning', 'Cancer Survivorship Care'],
+    doctors: [
+      { name: 'Dr. Ananya Kulkarni', qualifications: 'MD, DM (Medical Oncology) - Tata Memorial Centre' },
+      { name: 'Dr. Karan Mehta', qualifications: 'MS, M.Ch (Surgical Oncology) - RGCI Delhi' }
     ],
-    doctorsOnDuty: [
-      { name: 'Dr. Priya Rao', status: 'Available', time: '09:00 AM - 01:00 PM' },
-      { name: 'Dr. Neha Gupta', status: 'Available', time: '04:00 PM - 08:00 PM' }
-    ]
+    color: 'from-violet-500/10 to-violet-500/20 text-violet-500 border-violet-100 dark:border-violet-950/50'
+  },
+  {
+    id: 'Neurosurgery',
+    name: 'Neurosurgery',
+    icon: Brain,
+    image: 'https://images.unsplash.com/photo-1666214280557-f1b5022eb634?q=80&w=600&auto=format&fit=crop',
+    description: 'Advanced neurosurgical and neurosciences care for brain tumors, spine disorders, stroke intervention, and complex neuro-trauma.',
+    opdDays: 'Tue, Thu, Sat, 10:30 AM - 04:30 PM',
+    services: ['Brain Tumor Surgery', 'Spine Surgery', 'Stroke Intervention', 'Minimally Invasive Neurosurgery'],
+    doctors: [
+      { name: 'Dr. Vikram Malhotra', qualifications: 'MS, M.Ch (Neurosurgery) - NIMHANS Bangalore' },
+      { name: 'Dr. Ishaan Bedi', qualifications: 'MBBS, MS (General Surgery), Fellowship in Neurosurgery' }
+    ],
+    color: 'from-indigo-500/10 to-indigo-500/20 text-indigo-500 border-indigo-100 dark:border-indigo-950/50'
+  },
+  {
+    id: 'Gastroenterology',
+    name: 'Gastroenterology',
+    icon: Stethoscope,
+    image: 'https://images.unsplash.com/photo-1584982751601-97dcc096659c?q=80&w=600&auto=format&fit=crop',
+    description: 'Diagnostic and therapeutic endoscopy, liver disease management, and comprehensive care for digestive and pancreatic disorders.',
+    opdDays: 'Mon - Fri, 09:30 AM - 03:30 PM',
+    services: ['Therapeutic Endoscopy', 'Liver Disease Management', 'Inflammatory Bowel Disease Care', 'Pancreatic Disorder Treatment'],
+    doctors: [
+      { name: 'Dr. Neha Kapoor', qualifications: 'MD, DM (Gastroenterology) - PGIMER Chandigarh' },
+      { name: 'Dr. Rohan Ahluwalia', qualifications: 'MD (Medicine), Fellowship in Gastroenterology' }
+    ],
+    color: 'from-lime-500/10 to-lime-500/20 text-lime-600 border-lime-100 dark:border-lime-950/50'
+  },
+  {
+    id: 'Gynaecology & Obstetrics',
+    name: 'Gynaecology & Obstetrics',
+    icon: Activity,
+    image: 'https://images.unsplash.com/photo-1638202993928-7267aad84c31?q=80&w=600&auto=format&fit=crop',
+    description: 'Comprehensive women\'s healthcare, pre-pregnancy counseling, high-risk obstetrics, and laparoscopic surgeries under one roof.',
+    opdDays: 'Mon - Sat, 09:00 AM - 05:30 PM',
+    services: ['High-Risk Obstetrics', 'Prenatal & Postnatal Care', 'Laparoscopic Hysterectomy', 'Infertility Consultations'],
+    doctors: [
+      { name: 'Dr. Priya Nair', qualifications: 'MD (Obstetrics & Gynecology) - Madras Medical College' },
+      { name: 'Dr. Fatima Sheikh', qualifications: 'MBBS, DGO (Obstetrics & Gynecology)' }
+    ],
+    color: 'from-purple-500/10 to-purple-500/20 text-purple-500 border-purple-100 dark:border-purple-950/50'
   },
   {
     id: 'Orthopedics',
     name: 'Orthopedics',
     icon: Bone,
-    description: 'Expert management of joint displacements, spinal disorders, and sports injury recovery.',
-    services: ['Joint Replacement Surgery', 'Sports Injury Rehabilitation', 'Spinal Trauma Care'],
-    tests: ['Digital Bone X-Rays', 'Bone Mineral Density (BMD)', 'Rheumatoid Factor screening'],
-    stats: '12+ Yrs Exp | 96% Recovery Rate',
-    color: 'from-emerald-500/10 to-emerald-500/20 text-emerald-500 border-emerald-100 dark:border-emerald-950/50',
-    procedures: [
-      { name: 'Total Knee Replacement (TKR)', baseCost: 195000, stay: '4 Days', rehab: '6 Weeks' },
-      { name: 'Arthroscopic Ligament Repair (ACL)', baseCost: 125000, stay: '1 Day', rehab: '4 Weeks' },
-      { name: 'Spinal Disc Decompression', baseCost: 240000, stay: '3 Days', rehab: '8 Weeks' }
+    image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=600&auto=format&fit=crop',
+    description: 'Expert management of joint displacements, complex fractures, spinal disorders, and sports injury rehabilitation.',
+    opdDays: 'Mon, Wed, Fri, 09:30 AM - 05:30 PM',
+    services: ['Joint Replacement Surgery', 'Sports Injury Rehabilitation', 'Spinal Trauma Care', 'Arthroscopic Surgery'],
+    doctors: [
+      { name: 'Dr. Amit Patel', qualifications: 'MS, M.Ch (Orthopedics) - KGMU Lucknow' },
+      { name: 'Dr. Harpreet Sandhu', qualifications: 'MS (Orthopedics), Fellowship in Joint Replacement' }
     ],
-    doctorsOnDuty: [
-      { name: 'Dr. Rohit Pawar', status: 'In OPD Consultation', time: '11:00 AM - 05:00 PM' }
-    ]
+    color: 'from-emerald-500/10 to-emerald-500/20 text-emerald-500 border-emerald-100 dark:border-emerald-950/50'
   },
   {
-    id: 'Gynecology',
-    name: 'Gynecology',
-    icon: Activity,
-    description: 'Comprehensive women healthcare, pregnancy care, and infertility consultations.',
-    services: ['High-Risk Obstetrics', 'Prenatal & Postnatal Care', 'Laparoscopic Surgery'],
-    tests: ['Mammography screening', 'Pap Smear Diagnostics', '3D/4D Obstetric Ultrasound'],
-    stats: '14+ Yrs Exp | 100% Patient Care',
-    color: 'from-purple-500/10 to-purple-500/20 text-purple-500 border-purple-100 dark:border-purple-950/50',
-    procedures: [
-      { name: 'Laparoscopic Hysterectomy', baseCost: 110000, stay: '2 Days', rehab: '3 Weeks' },
-      { name: 'Normal Delivery Package', baseCost: 65000, stay: '3 Days', rehab: '2 Weeks' },
-      { name: 'Cesarean Section (C-Section)', baseCost: 95000, stay: '4 Days', rehab: '4 Weeks' }
+    id: 'Pediatrics',
+    name: 'Pediatrics',
+    icon: Baby,
+    image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=600&auto=format&fit=crop',
+    description: 'Expert medical care, pediatric critical care, newborn screening, and developmental monitoring programs for children of all ages.',
+    opdDays: 'Mon - Fri, 10:00 AM - 05:00 PM',
+    services: ['Neonatal Intensive Care', 'Child Vaccinations', 'Developmental Pediatrics', 'Pediatric Pulmonology'],
+    doctors: [
+      { name: 'Dr. Rohit Pawar', qualifications: 'MBBS, DCH (Pediatrics) - PGIMER Chandigarh' },
+      { name: 'Dr. Simran Kaur', qualifications: 'MD (Pediatrics), Neonatology Fellowship' }
     ],
-    doctorsOnDuty: [
-      { name: 'Dr. Anjali Mehta', status: 'Available', time: '10:00 AM - 03:00 PM' }
-    ]
+    color: 'from-amber-500/10 to-amber-500/20 text-amber-500 border-amber-100 dark:border-amber-950/50'
   },
   {
-    id: 'Neurology',
-    name: 'Neurology',
-    icon: Brain,
-    description: 'Advanced neurological therapies for stroke, epilepsy, and neuromuscular conditions.',
-    services: ['Stroke Management', 'Epilepsy & Seizure Care', 'Migraine Therapies'],
-    tests: ['EEG (Electroencephalography)', 'Nerve Conduction Velocity (NCV)', 'Electromyography (EMG)'],
-    stats: '18+ Yrs Exp | NIMHANS Accredited',
-    color: 'from-blue-500/10 to-blue-500/20 text-blue-500 border-blue-100 dark:border-blue-950/50',
-    procedures: [
-      { name: 'Deep Brain Stimulation (DBS) Assessment', baseCost: 15000, stay: '1 Day', rehab: '1 Week' },
-      { name: 'Intravenous Thrombolysis (Stroke Care)', baseCost: 180000, stay: '5 Days', rehab: '12 Weeks' },
-      { name: 'Neuromuscular Rehab Protocol', baseCost: 35000, stay: '0 Days (OPD)', rehab: 'Ongoing' }
+    id: 'ENT & Head-Neck Surgery',
+    name: 'ENT & Head-Neck Surgery',
+    icon: Ear,
+    image: 'https://images.unsplash.com/photo-1550831107-1553da8c8464?q=80&w=600&auto=format&fit=crop',
+    description: 'Endoscopic sinus surgery, cochlear implants, voice disorder treatment, and head-neck oncologic surgery for all age groups.',
+    opdDays: 'Mon - Sat, 09:00 AM - 03:30 PM',
+    services: ['Endoscopic Sinus Surgery', 'Cochlear Implants', 'Head & Neck Oncology', 'Voice Disorder Treatment'],
+    doctors: [
+      { name: 'Dr. Suresh Iyer', qualifications: 'MS (ENT) - Madras Medical College' },
+      { name: 'Dr. Naveen Reddy', qualifications: 'MS (ENT), Fellowship in Head-Neck Surgery' }
     ],
-    doctorsOnDuty: [
-      { name: 'Dr. Vikram Seth', status: 'In Surgery', time: '09:00 AM - 02:00 PM' }
-    ]
+    color: 'from-sky-500/10 to-sky-500/20 text-sky-500 border-sky-100 dark:border-sky-950/50'
   },
   {
     id: 'Dermatology',
     name: 'Dermatology',
     icon: Sparkles,
-    description: 'Clinical skincare solutions for rashes, acne, cosmetic concerns, and hair treatments.',
-    services: ['Acne & Scar Laser Therapy', 'Skin Cancer Screenings', 'Clinical Hair Care'],
-    tests: ['Wood\'s Lamp Examinations', 'Skin Patch testing (Allergies)', 'Digital Dermoscopy'],
-    stats: '8+ Yrs Exp | Holistic Skincare',
-    color: 'from-cyan-500/10 to-cyan-500/20 text-cyan-550 border-cyan-100 dark:border-cyan-950/50',
-    procedures: [
-      { name: 'Skin Biopsy & Lab Analysis', baseCost: 5500, stay: '0 Days (OPD)', rehab: '3 Days' },
-      { name: 'Laser Scar Resurfacing Session', baseCost: 12000, stay: '0 Days (OPD)', rehab: '5 Days' },
-      { name: 'Platelet-Rich Plasma (PRP) Hair Therapy', baseCost: 15000, stay: '0 Days (OPD)', rehab: '1 Day' }
+    image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=600&auto=format&fit=crop',
+    description: 'Clinical skincare solutions for allergy tests, acne scar revisions, hair treatments, and cosmetic dermatology concerns.',
+    opdDays: 'Mon - Fri, 09:30 AM - 04:30 PM',
+    services: ['Acne & Scar Laser Therapy', 'Skin Cancer Screenings', 'Clinical Hair Care', 'Laser Resurfacing'],
+    doctors: [
+      { name: 'Dr. Sunita Rao', qualifications: 'MD (Dermatology, Venereology & Leprosy) - GMC Mumbai' },
+      { name: 'Dr. Aisha Khan', qualifications: 'MD (Skin & VD), Fellowship in Cosmetic Dermatology' }
     ],
-    doctorsOnDuty: [
-      { name: 'Dr. K. K. Sen', status: 'Available', time: '02:00 PM - 07:00 PM' }
-    ]
+    color: 'from-cyan-500/10 to-cyan-500/20 text-cyan-550 border-cyan-100 dark:border-cyan-950/50'
+  },
+  {
+    id: 'Ophthalmology',
+    name: 'Ophthalmology',
+    icon: Eye,
+    image: 'https://images.unsplash.com/photo-1591076482161-42ce6da69f67?q=80&w=600&auto=format&fit=crop',
+    description: 'Cataract surgery, refractive procedures, glaucoma management, and comprehensive eye care using advanced micro-surgical techniques.',
+    opdDays: 'Mon - Fri, 09:30 AM - 04:30 PM',
+    services: ['Cataract Surgery', 'Refractive Surgery', 'Glaucoma Management', 'Retina Screening'],
+    doctors: [
+      { name: 'Dr. Anjali Desai', qualifications: 'MS (Ophthalmology) - Seth GS Medical College' },
+      { name: 'Dr. Yusuf Merchant', qualifications: 'MS (Ophthalmology), Fellowship in Retina' }
+    ],
+    color: 'from-blue-500/10 to-blue-500/20 text-blue-500 border-blue-100 dark:border-blue-950/50'
+  },
+  {
+    id: 'Internal Medicine',
+    name: 'Internal Medicine',
+    icon: Thermometer,
+    image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=600&auto=format&fit=crop',
+    description: 'General physician care managing diabetes, hypertension, infectious diseases, and complex multi-system disorders in adults.',
+    opdDays: 'Mon - Sat, 08:30 AM - 05:30 PM',
+    services: ['Diabetes Management', 'Hypertension Care', 'Infectious Disease Treatment', 'Geriatric Medicine'],
+    doctors: [
+      { name: 'Dr. Manoj Tiwari', qualifications: 'MBBS, MD (Internal Medicine) - MAMC Delhi' },
+      { name: 'Dr. Vidya Krishnan', qualifications: 'MBBS, MD (General Medicine)' }
+    ],
+    color: 'from-teal-500/10 to-teal-500/20 text-teal-500 border-teal-100 dark:border-teal-950/50'
+  },
+  {
+    id: 'Psychiatry',
+    name: 'Psychiatry',
+    icon: BrainCircuit,
+    image: 'https://images.unsplash.com/photo-1516841273335-e39b37888115?q=80&w=600&auto=format&fit=crop',
+    description: 'Compassionate mental health care spanning mood disorders, anxiety, adolescent counselling, and de-addiction support.',
+    opdDays: 'Mon, Wed, Fri, 10:00 AM - 05:00 PM',
+    services: ['Mood Disorder Treatment', 'Anxiety & Stress Care', 'Adolescent Counselling', 'De-Addiction Programs'],
+    doctors: [
+      { name: 'Dr. Ritu Bhatia', qualifications: 'MD (Psychiatry) - NIMHANS Bangalore' },
+      { name: 'Dr. Gaurav Malik', qualifications: 'MD (Psychiatry), Fellowship in Child & Adolescent Psychiatry' }
+    ],
+    color: 'from-pink-500/10 to-pink-500/20 text-pink-500 border-pink-100 dark:border-pink-950/50'
+  },
+  {
+    id: 'Dental Surgery',
+    name: 'Dental Surgery',
+    icon: Smile,
+    image: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=600&auto=format&fit=crop',
+    description: 'Comprehensive dental care including root canal therapy, dental implants, and maxillofacial trauma management.',
+    opdDays: 'Mon - Sat, 09:00 AM - 05:00 PM',
+    services: ['Dental Implants', 'Root Canal Therapy', 'Maxillofacial Trauma Care', 'Cosmetic Dentistry'],
+    doctors: [
+      { name: 'Dr. Sameer Khanna', qualifications: 'BDS, MDS (Oral & Maxillofacial Surgery)' },
+      { name: 'Dr. Pooja Malhotra', qualifications: 'BDS, MDS (Prosthodontics)' }
+    ],
+    color: 'from-orange-500/10 to-orange-500/20 text-orange-500 border-orange-100 dark:border-orange-950/50'
+  },
+  {
+    id: 'Anaesthesia & Critical Care',
+    name: 'Anaesthesia & Critical Care',
+    icon: Syringe,
+    image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?q=80&w=600&auto=format&fit=crop',
+    description: 'Peri-operative anaesthesia, ICU protocols, ventilator management, and life-support care for critically ill patients around the clock.',
+    opdDays: 'Available 24/7 - ICU & Emergency On-Call',
+    services: ['Peri-operative Anaesthesia', 'Critical Care Medicine', 'Ventilator Management', 'Pain Management'],
+    doctors: [
+      { name: 'Dr. Alok Sinha', qualifications: 'MD (Anaesthesiology) - AIIMS New Delhi' },
+      { name: 'Dr. Meenal Joshi', qualifications: 'MD (Anaesthesiology), Fellowship in Critical Care' }
+    ],
+    color: 'from-red-500/10 to-red-500/20 text-red-500 border-red-100 dark:border-red-950/50'
+  },
+  {
+    id: 'Pathology & Radiology',
+    name: 'Pathology & Radiology',
+    icon: FlaskConical,
+    image: 'https://images.unsplash.com/photo-1579165466991-467135ad3110?q=80&w=600&auto=format&fit=crop',
+    description: 'Histopathology, molecular diagnostics, and advanced radiology imaging including MRI, CT, and interventional radiology.',
+    opdDays: 'Mon - Sat, By Appointment (Reports & Consultation)',
+    services: ['Histopathology', 'Molecular Diagnostics', 'MRI & CT Reporting', 'Interventional Radiology'],
+    doctors: [
+      { name: 'Dr. Deepak Chawla', qualifications: 'MD (Pathology), Fellowship in Radiodiagnosis' },
+      { name: 'Dr. Nikita Shah', qualifications: 'MD (Radiodiagnosis)' }
+    ],
+    color: 'from-slate-500/10 to-slate-500/20 text-slate-500 border-slate-200 dark:border-slate-800/50'
+  },
+  {
+    id: 'Physiotherapy',
+    name: 'Physiotherapy',
+    icon: Dumbbell,
+    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=600&auto=format&fit=crop',
+    description: 'Personalized rehabilitation programs for post-surgical recovery, sports injuries, and chronic musculoskeletal pain.',
+    opdDays: 'Mon - Sat, 09:00 AM - 05:00 PM',
+    services: ['Post-Surgical Rehabilitation', 'Sports Injury Recovery', 'Chronic Pain Management', 'Neuro-Rehabilitation'],
+    doctors: [
+      { name: 'Dr. Kavita Joshi', qualifications: 'BPT, MPT (Orthopedic Physiotherapy)' },
+      { name: 'Dr. Ansh Kapadia', qualifications: 'BPT, MPT (Sports Physiotherapy)' }
+    ],
+    color: 'from-yellow-500/10 to-yellow-500/20 text-yellow-600 border-yellow-100 dark:border-yellow-950/50'
+  },
+  {
+    id: 'Emergency & Trauma',
+    name: 'Emergency & Trauma',
+    icon: Siren,
+    image: 'https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?q=80&w=600&auto=format&fit=crop',
+    description: 'A 24/7 emergency and trauma department coordinating rapid trauma response, resuscitation, and multi-disciplinary critical care.',
+    opdDays: 'Available 24/7 - Emergency Walk-in & Trauma Bay',
+    services: ['Trauma Resuscitation', 'Emergency Triage', 'Critical Care Transport', 'Mass Casualty Management'],
+    doctors: [
+      { name: 'Dr. Arvind Rathore', qualifications: 'MD (Emergency Medicine) - CMC Vellore' },
+      { name: 'Dr. Farhan Ali', qualifications: 'MBBS, Diploma in Emergency Medicine' }
+    ],
+    color: 'from-rose-600/10 to-rose-600/20 text-rose-600 border-rose-200 dark:border-rose-950/50'
   }
 ];
 
-const symptomList = [
-  { label: 'Chest Discomfort / Palpitations', value: 'chest_pain', department: 'Cardiology' },
-  { label: 'Shortness of Breath', value: 'dyspnea', department: 'Cardiology' },
-  { label: "Child's Fever / Infant Cough", value: 'kids_fever', department: 'Pediatrics' },
-  { label: 'Child Growth / Nutrition Concerns', value: 'ped_growth', department: 'Pediatrics' },
-  { label: 'Joint Stiffness / Back Pain', value: 'joint_stiffness', department: 'Orthopedics' },
-  { label: 'Bone Injury / Fractures', value: 'fractures', department: 'Orthopedics' },
-  { label: 'Pregnancy Consultation', value: 'pregnancy', department: 'Gynecology' },
-  { label: 'Menstrual Irregularities', value: 'period_issues', department: 'Gynecology' },
-  { label: 'Severe Headaches / Migraines', value: 'headaches', department: 'Neurology' },
-  { label: 'Dizziness / Numbness', value: 'numbness', department: 'Neurology' },
-  { label: 'Acne / Skin Rash / Eczema', value: 'skin_rash', department: 'Dermatology' },
-  { label: 'Severe Hair Loss', value: 'hair_loss', department: 'Dermatology' }
+const institutes = [
+  {
+    name: 'Aarogya Cancer Institute',
+    icon: Ribbon,
+    description: 'A dedicated multi-disciplinary cancer care center bringing together medical, surgical, and radiation oncology under one roof, with tumor board reviews for every patient.',
+    facilities: ['Day-Care Chemotherapy Suites', 'Linear Accelerator Radiotherapy', 'Surgical Oncology Theatres', 'Palliative & Survivorship Care'],
+    color: 'from-violet-500/10 to-violet-500/20 text-violet-500 border-violet-100 dark:border-violet-950/50'
+  },
+  {
+    name: 'Aarogya Cardiac Institute',
+    icon: Heart,
+    description: 'A round-the-clock cardiac care unit with a dedicated cath lab, offering rapid response for cardiac emergencies alongside long-term preventive heart programs.',
+    facilities: ['24/7 Cardiac Catheterization Lab', 'Cardiac ICU (CCU)', 'Non-Invasive Cardiology Suite', '15-Min Emergency Response Fleet'],
+    color: 'from-rose-500/10 to-rose-500/20 text-rose-500 border-rose-100 dark:border-rose-950/50'
+  }
 ];
 
 const packages = [
@@ -199,774 +333,142 @@ const clinicalFaqs = [
   }
 ];
 
-const dietPlans = {
-  cardiac: {
-    title: "Cardiac Care Diet (Low Sodium)",
-    cal: "1,600 kcal",
-    breakfast: "Oatmeal with almonds & flax seeds + 1 cup Green Tea",
-    lunch: "Brown Rice (1 cup), steamed broccoli, Dal Tadka, cucumber salad",
-    dinner: "Grilled Tofu/Paneer salad + half cup boiled quinoa + vegetable soup",
-    tip: "Limit table salt usage. Choose high-potassium foods like spinach and bananas."
-  },
-  diabetic: {
-    title: "Diabetes Management (Low Glycemic)",
-    cal: "1,500 kcal",
-    breakfast: "Multigrain vegetable Upma + 2 egg whites (or boiled sprouts)",
-    lunch: "Whole wheat Roti (2), Mixed vegetable curry, curd (low fat), raw sprouts",
-    dinner: "Sautéed Paneer/Chicken with bell peppers and green beans + tomato soup",
-    tip: "Maintain 3-hour gaps between small meals to prevent sudden glucose peaks."
-  },
-  weight: {
-    title: "Weight Management (High Protein)",
-    cal: "1,400 kcal",
-    breakfast: "Sprouted Moong chilla with mint chutney + 1 glass Butter milk",
-    lunch: "Quinoa Pulav with paneer cubes, roasted beetroot, curd",
-    dinner: "Clear vegetable broth + steamed fish/paneer salad with lemon olive oil",
-    tip: "Drink at least 3 liters of water daily to support higher protein metabolism."
-  },
-  general: {
-    title: "General Vigor & Wellness",
-    cal: "1,800 kcal",
-    breakfast: "Fruit bowl (Apple, Papaya) + handful of soaked almonds & walnuts",
-    lunch: "Wheat Roti (2), yellow Moong Dal, Palak Sabzi, fresh salad",
-    dinner: "Stir-fried seasonal vegetables + lentil soup + roasted pumpkin seeds",
-    tip: "Include seasonal fruits and anti-inflammatory spices like turmeric daily."
-  }
-};
-
-const mockReport = {
-  id: "AR-5022",
-  patient: "Rohan Verma",
-  age: 42,
-  gender: "Male",
-  date: "07-Jul-2026",
-  status: "Verified & NABL Signed",
-  pathologist: "Dr. S. Sen (MD, Pathology)",
-  parameters: [
-    { name: "HbA1c (Glycated Hemoglobin)", value: "5.8 %", range: "4.5 - 5.6 % (Normal)", status: "borderline", color: "text-amber-600" },
-    { name: "Fasting Blood Sugar", value: "112 mg/dL", range: "70 - 100 mg/dL (Normal)", status: "high", color: "text-rose-600 font-extrabold" },
-    { name: "Total Cholesterol", value: "242 mg/dL", range: "120 - 200 mg/dL (Desirable)", status: "high", color: "text-rose-600 font-extrabold" },
-    { name: "Serum Creatinine (Kidney)", value: "0.9 mg/dL", range: "0.6 - 1.2 mg/dL (Normal)", status: "normal", color: "text-emerald-600" }
-  ],
-  summary: "Borderline hyperglycemia and moderate hypercholesterolemia detected. Patient is advised to restrict refined sugar, lower dietary sodium/fats, and schedule a diagnostic Cardiology follow-up."
-};
-
 export default function Specialties({ onSelectSpecialty, scrollToSection }) {
-  const [selectedSymptoms, setSelectedSymptoms] = useState([]);
-  const [recommendedDept, setRecommendedDept] = useState(null);
   const [activeFaq, setActiveFaq] = useState(null);
-
-  // Dynamic Drawer Details state
-  const [drawerSpecialty, setDrawerSpecialty] = useState(null);
-  const [selectedProcedureIdx, setSelectedProcedureIdx] = useState(0);
-  const [callbackRequested, setCallbackRequested] = useState(false);
-
-  // Health Calculator state
-  const [weight, setWeight] = useState('');
-  const [height, setHeight] = useState('');
-  const [age, setAge] = useState('');
-  const [heartHistory, setHeartHistory] = useState(false);
-  const [bmiResult, setBmiResult] = useState(null);
-  const [recommendedPackage, setRecommendedPackage] = useState(null);
-  const [copiedCoupon, setCopiedCoupon] = useState(false);
-
-  // Smart Wellness Hub states
-  const [dietGoal, setDietGoal] = useState('cardiac');
-  const [reportSearchId, setReportSearchId] = useState('');
-  const [activeReport, setActiveReport] = useState(mockReport);
-  const [reportError, setReportError] = useState('');
-  const [loadingReport, setLoadingReport] = useState(false);
-
-  const toggleSymptom = (symptom) => {
-    if (selectedSymptoms.includes(symptom)) {
-      setSelectedSymptoms(prev => prev.filter(item => item !== symptom));
-    } else {
-      setSelectedSymptoms(prev => [...prev, symptom]);
-    }
-  };
-
-  const handleFindDepartment = () => {
-    if (selectedSymptoms.length === 0) {
-      setRecommendedDept(null);
-      return;
-    }
-
-    const counts = {};
-    selectedSymptoms.forEach(symptomValue => {
-      const match = symptomList.find(s => s.value === symptomValue);
-      if (match) {
-        counts[match.department] = (counts[match.department] || 0) + 1;
-      }
-    });
-
-    let bestDept = null;
-    let maxCount = 0;
-    Object.keys(counts).forEach(deptName => {
-      if (counts[deptName] > maxCount) {
-        maxCount = counts[deptName];
-        bestDept = deptName;
-      }
-    });
-
-    const deptDetails = specialtiesData.find(s => s.id === bestDept);
-    setRecommendedDept(deptDetails || null);
-  };
-
-  const openSpecialtyDrawer = (specialty) => {
-    setDrawerSpecialty(specialty);
-    setSelectedProcedureIdx(0);
-    setCallbackRequested(false);
-  };
-
-  const closeSpecialtyDrawer = () => {
-    setDrawerSpecialty(null);
-  };
-
-  const handleRequestCallback = () => {
-    setCallbackRequested(true);
-    setTimeout(() => {
-      setCallbackRequested(false);
-    }, 4000);
-  };
-
-  const handleActionFromDrawer = () => {
-    if (drawerSpecialty) {
-      onSelectSpecialty(drawerSpecialty.id);
-      closeSpecialtyDrawer();
-      scrollToSection('doctors');
-    }
-  };
-
-  const handleCalculateHealth = (e) => {
-    e.preventDefault();
-    if (!weight || !height || !age) return;
-
-    const w = parseFloat(weight);
-    const h = parseFloat(height) / 100;
-    const bmi = (w / (h * h)).toFixed(1);
-    
-    let classification = '';
-    if (bmi < 18.5) classification = 'Underweight';
-    else if (bmi >= 18.5 && bmi < 24.9) classification = 'Healthy';
-    else if (bmi >= 25 && bmi < 29.9) classification = 'Overweight';
-    else classification = 'Obese';
-
-    setBmiResult({ bmi, classification });
-
-    const ageVal = parseInt(age);
-    if (heartHistory) {
-      setRecommendedPackage(packages.find(p => p.title.includes("Cardiac")));
-    } else if (ageVal >= 60) {
-      setRecommendedPackage(packages.find(p => p.title.includes("Senior")));
-    } else if (classification === 'Overweight' || classification === 'Obese') {
-      setRecommendedPackage(packages.find(p => p.title.includes("Cardiac") || p.title.includes("Women")));
-    } else {
-      setRecommendedPackage(packages.find(p => p.title.includes("Basic")));
-    }
-  };
-
-  const handleCopyCoupon = () => {
-    setCopiedCoupon(true);
-    navigator.clipboard.writeText("AAROGYA-SAVE-20");
-    setTimeout(() => setCopiedCoupon(false), 2000);
-  };
 
   const handleAction = (deptId) => {
     onSelectSpecialty(deptId);
     scrollToSection('doctors');
   };
 
-  const handleBookPackage = (pkgTitle) => {
+  const handleBookPackage = () => {
     scrollToSection('booking');
-  };
-
-  // Report search logic
-  const handleReportSearch = (e) => {
-    e.preventDefault();
-    if (!reportSearchId) return;
-
-    setLoadingReport(true);
-    setReportError('');
-    setActiveReport(null);
-
-    setTimeout(() => {
-      setLoadingReport(false);
-      const query = reportSearchId.trim().toUpperCase();
-      if (query === 'AR-5022') {
-        setActiveReport(mockReport);
-      } else {
-        setReportError('Report ID not found. Try searching AR-5022 for demo.');
-      }
-    }, 1200);
-  };
-
-  const loadDemoReportId = () => {
-    setReportSearchId('AR-5022');
-    setLoadingReport(true);
-    setReportError('');
-    setActiveReport(null);
-
-    setTimeout(() => {
-      setLoadingReport(false);
-      setActiveReport(mockReport);
-    }, 850);
   };
 
   return (
     <section id="specialties" className="py-12 bg-white dark:bg-slate-900 transition-colors duration-300 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
 
-        {/* Bento Box Grid & Symptom Finder wrapper */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          
-          {/* Bento Box: Grid of 6 Specialties (Spans 2 cols on desktop) */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {specialtiesData.map((specialty) => {
-              const IconComponent = specialty.icon;
-              return (
-                <div
-                  key={specialty.id}
-                  onClick={() => openSpecialtyDrawer(specialty)}
-                  className="bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl p-6 hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300 flex flex-col justify-between group h-full cursor-pointer hover:-translate-y-0.5 active:scale-[0.99]"
-                >
-                  <div className="space-y-4">
-                    {/* Header: Icon + Name */}
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2.5 rounded-xl bg-gradient-to-br ${specialty.color} border flex items-center justify-center`}>
-                        <IconComponent className="h-5 w-5" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wide">
-                            {specialty.name}
-                          </h3>
-                          <span className="text-[8px] font-black bg-cyan-100 dark:bg-cyan-950/40 text-cyan-brand dark:text-cyan-400 px-1.5 py-0.5 rounded uppercase tracking-wider">
-                            Interactive
-                          </span>
-                        </div>
-                        <span className="text-[9px] font-bold text-slate-400 dark:text-slate-550 uppercase tracking-wider block">
-                          {specialty.stats}
-                        </span>
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-                      {specialty.description}
-                    </p>
-
-                    {/* Services Sub-list */}
-                    <div className="grid grid-cols-2 gap-x-4 pt-2">
-                      <div className="space-y-1.5">
-                        <span className="text-[8px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest block mb-0.5">Clinical Services</span>
-                        <ul className="space-y-1">
-                          {specialty.services.slice(0, 2).map((service, index) => (
-                            <li key={index} className="flex items-center gap-1.5 text-[9.5px] font-bold text-slate-600 dark:text-slate-350">
-                              <div className="h-1 w-1 bg-cyan-brand rounded-full shrink-0"></div>
-                              <span className="truncate">{service}</span>
-                            </li>
-                          ))}
-                          <li className="text-[8.5px] font-semibold text-cyan-brand uppercase tracking-wider pl-2.5">
-                            + More Services
-                          </li>
-                        </ul>
-                      </div>
-                      
-                      <div className="space-y-1.5">
-                        <span className="text-[8px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block mb-0.5">Advanced Diagnostics</span>
-                        <ul className="space-y-1">
-                          {specialty.tests.slice(0, 2).map((test, index) => (
-                            <li key={index} className="flex items-center gap-1.5 text-[9.5px] font-semibold text-slate-500 dark:text-slate-400 italic">
-                              <Check className="h-2.5 w-2.5 text-cyan-brand shrink-0" />
-                              <span className="truncate">{test}</span>
-                            </li>
-                          ))}
-                          <li className="text-[8.5px] font-semibold text-slate-450 italic pl-4">
-                            + Procedures
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Actions footer */}
-                  <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50 mt-4 flex items-center justify-between">
-                    <span className="text-[9.5px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest flex items-center gap-1">
-                      Explore Surgery Estimator
-                      <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Bento Box: Symptom-to-Specialty Finder Card */}
-          <div className="bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl p-6 lg:sticky lg:top-24 space-y-5">
-            <div>
-              <h3 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wide flex items-center gap-1.5">
-                <AlertCircle className="h-4 w-4 text-cyan-brand" />
-                Specialty Finder
-              </h3>
-              <p className="text-[10px] font-bold text-slate-400 dark:text-slate-550 uppercase tracking-wider block pt-0.5">
-                Not sure whom to consult? Select symptoms:
-              </p>
-            </div>
-
-            {/* Checklist of symptoms */}
-            <div className="space-y-2 max-h-56 overflow-y-auto pr-1 custom-scrollbar">
-              {symptomList.map((symptom) => {
-                const isSelected = selectedSymptoms.includes(symptom.value);
-                return (
-                  <button
-                    key={symptom.value}
-                    onClick={() => toggleSymptom(symptom.value)}
-                    className={`w-full flex items-center justify-between p-2.5 rounded-lg border text-left text-xs font-semibold transition-all duration-200 ${
-                      isSelected
-                        ? 'bg-cyan-brand border-cyan-brand text-white shadow-sm'
-                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
-                    }`}
-                  >
-                    <span>{symptom.label}</span>
-                    {isSelected && <Check className="h-3.5 w-3.5" />}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Find Button */}
-            <button
-              onClick={handleFindDepartment}
-              disabled={selectedSymptoms.length === 0}
-              className={`w-full py-3 text-[10px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 ${
-                selectedSymptoms.length === 0
-                  ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed border border-transparent'
-                  : 'bg-gradient-to-r from-cyan-brand to-[#0097a7] text-white hover:from-cyan-600 hover:to-[#00838f] shadow-md hover:shadow-cyan-500/10 cursor-pointer active:scale-[0.99]'
-              }`}
-            >
-              Find Recommended Department
-            </button>
-
-            {/* Recommended Department Output Display */}
-            {recommendedDept && (
-              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4.5 space-y-3 shadow-inner animate-in fade-in zoom-in-95 duration-200">
-                <div className="space-y-1">
-                  <span className="text-[8px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest">
-                    Recommended Specialty:
-                  </span>
-                  <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wide">
-                    {recommendedDept.name}
-                  </h4>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-                    {recommendedDept.description}
-                  </p>
-                </div>
-                
-                <button
-                  onClick={() => handleAction(recommendedDept.id)}
-                  className="w-full py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-750 text-cyan-brand dark:text-cyan-400 font-extrabold text-[9px] uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  <span>Meet {recommendedDept.name} Doctors</span>
-                  <ArrowRight className="h-3 w-3" />
-                </button>
-              </div>
-            )}
-
-          </div>
-
+        {/* Intro */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <span className="text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">
+            CLINICAL SPECIALTIES
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white uppercase tracking-wider">
+            17 Specialized Departments, One Campus
+          </h1>
+          <div className="h-1 w-16 bg-cyan-brand mx-auto"></div>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+            Aarogya Life Hospital brings together 17 clinical departments and over 50 accredited consultants under one campus in Sector 62, Noida.
+            From routine OPD consultations to complex surgical care, every department is backed by NABH-certified protocols, modern diagnostic
+            infrastructure, and a patient-first approach to treatment. Browse each department below for services offered, OPD timings, and
+            the consultants leading that unit.
+          </p>
         </div>
 
-        {/* Interactive BMI & Health Package Calculator */}
-        <div className="pt-10 space-y-8 border-t border-slate-100 dark:border-slate-800/80">
-          <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">
-              DIAGNOSTIC RECOMMENDER
-            </span>
-            <h3 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-wider">
-              Interactive Health Quotient Calculator
-            </h3>
-            <div className="h-1 w-16 bg-cyan-brand mx-auto"></div>
-            <p className="text-[10.5px] text-slate-500 dark:text-slate-400 font-semibold">
-              Enter your vitals to calculate BMI and receive personalized diagnostic checkup recommendations.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            
-            {/* Left Column: Input Form */}
-            <form onSubmit={handleCalculateHealth} className="lg:col-span-5 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl p-6 space-y-4 flex flex-col justify-between">
-              <div className="space-y-4">
-                <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-2">
-                  <Calculator className="h-4 w-4 text-cyan-brand" />
-                  Vitals Input Board
-                </h4>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest">Weight (kg)</label>
-                    <input
-                      type="number"
-                      placeholder="e.g. 70"
-                      value={weight}
-                      onChange={(e) => setWeight(e.target.value)}
-                      required
-                      className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-semibold rounded-lg focus:outline-none focus:border-cyan-brand dark:text-white"
-                    />
+        {/* Institute highlight blocks */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {institutes.map((inst, i) => {
+            const InstIcon = inst.icon;
+            return (
+              <div key={i} className={`rounded-2xl p-6 sm:p-8 border bg-gradient-to-br ${inst.color} flex flex-col gap-4`}>
+                <div className="flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-2xl bg-white/70 dark:bg-slate-900/50 flex items-center justify-center shrink-0">
+                    <InstIcon className="h-6 w-6" />
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-[9px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest">Height (cm)</label>
-                    <input
-                      type="number"
-                      placeholder="e.g. 175"
-                      value={height}
-                      onChange={(e) => setHeight(e.target.value)}
-                      required
-                      className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-semibold rounded-lg focus:outline-none focus:border-cyan-brand dark:text-white"
-                    />
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-4 w-4 opacity-70" />
+                    <h3 className="text-base font-black uppercase tracking-wide">{inst.name}</h3>
                   </div>
                 </div>
-
-                <div className="space-y-1">
-                  <label className="text-[9px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest">Age (Years)</label>
-                  <input
-                    type="number"
-                    placeholder="e.g. 45"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                    required
-                    className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-semibold rounded-lg focus:outline-none focus:border-cyan-brand dark:text-white"
-                  />
-                </div>
-
-                <div className="pt-2">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={heartHistory}
-                      onChange={(e) => setHeartHistory(e.target.checked)}
-                      className="rounded border-slate-300 dark:border-slate-800 text-cyan-brand focus:ring-cyan-brand h-3.5 w-3.5"
-                    />
-                    <span className="text-[10px] font-bold text-slate-600 dark:text-slate-350 select-none">
-                      Family history of hypertension / heart illness?
-                    </span>
-                  </label>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-3 bg-cyan-brand hover:bg-cyan-600 text-white font-extrabold text-[10px] uppercase tracking-widest rounded-xl shadow-md transition-all active:scale-[0.98] cursor-pointer mt-6"
-              >
-                Calculate Diagnostics Plan
-              </button>
-            </form>
-
-            {/* Right Column: Calculator Output */}
-            <div className="lg:col-span-7 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl p-6 flex flex-col justify-center items-center text-center relative overflow-hidden min-h-[300px]">
-              
-              {!bmiResult ? (
-                <div className="space-y-3.5 max-w-sm">
-                  <div className="p-3 bg-cyan-50 dark:bg-cyan-950/20 text-cyan-brand dark:text-cyan-400 rounded-2xl border border-cyan-100 dark:border-cyan-950 inline-block">
-                    <Calculator className="h-6 w-6" />
-                  </div>
-                  <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider">
-                    Awaiting Calculations
-                  </h4>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
-                    Submit your vitals details on the left form. Our demo health metric engine will dynamically display your BMI classification, wellness advice, and checkup discount key.
-                  </p>
-                </div>
-              ) : (
-                <div className="w-full space-y-6 animate-in fade-in zoom-in-95 duration-200">
-                  <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-                    <div className="bg-white dark:bg-slate-900 border border-slate-150/80 dark:border-slate-800 rounded-xl p-3.5 shadow-sm">
-                      <span className="text-[8px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-0.5">Your Body Mass Index</span>
-                      <span className="text-2xl font-black text-cyan-brand dark:text-cyan-400">{bmiResult.bmi}</span>
-                    </div>
-                    <div className="bg-white dark:bg-slate-900 border border-slate-150/80 dark:border-slate-800 rounded-xl p-3.5 shadow-sm">
-                      <span className="text-[8px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest block mb-0.5">Classification</span>
-                      <span className="text-base font-black text-slate-700 dark:text-slate-200 block mt-1 uppercase tracking-wide">{bmiResult.classification}</span>
-                    </div>
-                  </div>
-
-                  {recommendedPackage && (
-                    <div className="max-w-md mx-auto bg-white dark:bg-slate-900 border border-slate-150/80 dark:border-slate-800 rounded-2xl p-5 text-left space-y-4 shadow-sm relative">
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-0.5">
-                          <span className="text-[8px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">Recommended Package:</span>
-                          <h5 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider">
-                            {recommendedPackage.title}
-                          </h5>
-                        </div>
-                        <span className="text-base font-black text-slate-800 dark:text-white">
-                          {recommendedPackage.price}
-                        </span>
-                      </div>
-                      
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
-                        {recommendedPackage.details}
-                      </p>
-
-                      <div className="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-xl border border-dashed border-slate-200 dark:border-slate-750 flex items-center justify-between gap-4">
-                        <div className="space-y-0.5">
-                          <span className="text-[8px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest block">Checkup Coupon Key:</span>
-                          <code className="text-[11px] font-black text-cyan-brand dark:text-cyan-400 select-all">AAROGYA-SAVE-20</code>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={handleCopyCoupon}
-                          className="px-2.5 py-1 bg-cyan-brand hover:bg-cyan-600 text-white font-extrabold text-[9px] uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
-                        >
-                          {copiedCoupon ? 'Copied!' : 'Copy Code'}
-                        </button>
-                      </div>
-
-                      <button
-                        onClick={() => handleBookPackage(recommendedPackage.title)}
-                        className="w-full py-2 bg-gradient-to-r from-cyan-brand to-[#0097a7] hover:from-cyan-600 hover:to-[#00838f] text-white font-extrabold text-[9px] uppercase tracking-widest rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-sm"
-                      >
-                        <span>Claim checkup with 20% discount</span>
-                        <ArrowRight className="h-3 w-3" />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-
-            </div>
-
-          </div>
-        </div>
-
-        {/* ========================================================================= */}
-        {/* NEW ADD-ON BLOCK: PATIENT SMART WELLNESS HUB (Diet Recommender + Lab Reports) */}
-        {/* ========================================================================= */}
-        <div className="pt-10 space-y-8 border-t border-slate-100 dark:border-slate-800/80">
-          <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">
-              PATIENT SMART TOOLS
-            </span>
-            <h3 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-wider">
-              Smart Wellness Utilities Hub
-            </h3>
-            <div className="h-1 w-16 bg-cyan-brand mx-auto"></div>
-            <p className="text-[10.5px] text-slate-500 dark:text-slate-400 font-semibold">
-              Explore your diet profiles dynamically or inspect digital verified laboratory report files.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            
-            {/* Tool 1: Interactive Nutrition meal plan recommender (Spans 6 cols) */}
-            <div className="lg:col-span-6 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl p-6 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="p-2 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-450 border border-emerald-100 dark:border-emerald-950 rounded-xl">
-                    <Apple className="h-4.5 w-4.5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider">
-                      Dynamic Nutrition Planner
-                    </h4>
-                    <span className="text-[8px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest block">
-                      Custom 1-Day Clinical Meal Plans
-                    </span>
-                  </div>
-                </div>
-
-                <p className="text-[10px] text-slate-555 dark:text-slate-400 font-semibold leading-relaxed">
-                  Select your medical target profile to generate a customized diet chart compiled by Aarogya Life Clinical Nutritionists:
+                <p className="text-xs font-semibold leading-relaxed text-slate-700 dark:text-slate-300">
+                  {inst.description}
                 </p>
-
-                {/* Diet selector dropdown */}
-                <div className="grid grid-cols-2 gap-2">
-                  {Object.keys(dietPlans).map((key) => (
-                    <button
-                      key={key}
-                      onClick={() => setDietGoal(key)}
-                      className={`p-2 rounded-lg border text-[9.5px] font-black uppercase tracking-wide transition-all ${
-                        dietGoal === key
-                          ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
-                          : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-350 hover:border-slate-300 dark:hover:border-slate-700'
-                      }`}
-                    >
-                      {key} Profile
-                    </button>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 pt-2 border-t border-slate-900/5 dark:border-white/10">
+                  {inst.facilities.map((f, idx) => (
+                    <li key={idx} className="flex items-center gap-1.5 text-[10.5px] font-bold text-slate-600 dark:text-slate-300">
+                      <Check className="h-3 w-3 shrink-0" />
+                      <span>{f}</span>
+                    </li>
                   ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Departments card grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {specialtiesData.map((specialty) => {
+            const IconComponent = specialty.icon;
+            return (
+              <div
+                key={specialty.id}
+                className="bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl overflow-hidden shadow-sm flex flex-col hover:shadow-md transition-shadow"
+              >
+                {/* Photo banner */}
+                <div className="relative h-40 w-full overflow-hidden">
+                  <img
+                    src={specialty.image}
+                    alt={specialty.name}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/10 to-transparent"></div>
+                  <div className={`absolute bottom-3 left-3 h-10 w-10 rounded-xl bg-gradient-to-br ${specialty.color} border shadow-sm flex items-center justify-center`}>
+                    <IconComponent className="h-5 w-5" />
+                  </div>
+                  <h3 className="absolute bottom-3 left-16 right-3 text-sm font-black text-white uppercase tracking-wide truncate">
+                    {specialty.name}
+                  </h3>
                 </div>
 
-                {/* Render Selected diet plan */}
-                <div className="bg-white dark:bg-slate-900 border border-slate-150/80 dark:border-slate-800 rounded-xl p-4 space-y-3 shadow-inner">
-                  <div className="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-800">
-                    <span className="text-[10.5px] font-black text-slate-800 dark:text-white uppercase tracking-wider leading-none">
-                      {dietPlans[dietGoal].title}
-                    </span>
-                    <span className="text-[9.5px] font-black text-emerald-600 dark:text-emerald-450 uppercase">
-                      {dietPlans[dietGoal].cal}
-                    </span>
+                <div className="p-5 flex-1 flex flex-col space-y-4">
+                  <p className="text-[10.5px] text-slate-500 dark:text-slate-400 font-semibold">
+                    {specialty.opdDays}
+                  </p>
+
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                    {specialty.description}
+                  </p>
+
+                  <div className="space-y-1.5">
+                    <span className="text-[9px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest block">Services Offered</span>
+                    <ul className="space-y-1">
+                      {specialty.services.slice(0, 3).map((service, index) => (
+                        <li key={index} className="flex items-center gap-1.5 text-[10.5px] font-bold text-slate-650 dark:text-slate-350">
+                          <div className="h-1 w-1 bg-cyan-brand rounded-full shrink-0"></div>
+                          <span>{service}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  <div className="space-y-2 text-[10px] font-semibold text-slate-700 dark:text-slate-300">
-                    <div>
-                      <span className="text-[8.5px] font-black text-slate-400 dark:text-slate-550 uppercase block">Breakfast Plan</span>
-                      <p className="pt-0.5">{dietPlans[dietGoal].breakfast}</p>
-                    </div>
-                    <div>
-                      <span className="text-[8.5px] font-black text-slate-400 dark:text-slate-550 uppercase block">Lunch Plan</span>
-                      <p className="pt-0.5">{dietPlans[dietGoal].lunch}</p>
-                    </div>
-                    <div>
-                      <span className="text-[8.5px] font-black text-slate-400 dark:text-slate-550 uppercase block">Dinner Plan</span>
-                      <p className="pt-0.5">{dietPlans[dietGoal].dinner}</p>
-                    </div>
+                  <div className="space-y-1.5">
+                    <span className="text-[9px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">Consultants</span>
+                    <ul className="space-y-1.5">
+                      {specialty.doctors.map((doc, index) => (
+                        <li key={index} className="text-[10.5px]">
+                          <span className="font-bold text-slate-700 dark:text-slate-200 block">{doc.name}</span>
+                          <span className="text-slate-500 dark:text-slate-450 font-medium">{doc.qualifications}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  <div className="p-2 bg-emerald-50 dark:bg-emerald-950/20 rounded-lg text-[9px] text-emerald-800 dark:text-emerald-400 leading-normal border border-emerald-100 dark:border-emerald-950/40">
-                    <strong>Dietician Clinical Tip:</strong> {dietPlans[dietGoal].tip}
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800/80">
-                <button
-                  onClick={() => scrollToSection('booking')}
-                  className="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[9px] uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  <Apple className="h-3.5 w-3.5" />
-                  <span>Consult Clinical Dietician</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Tool 2: Pathology Laboratory Report search & Tracker (Spans 6 cols) */}
-            <div className="lg:col-span-6 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl p-6 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="p-2 bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-450 border border-blue-100 dark:border-blue-950 rounded-xl">
-                    <FileSpreadsheet className="h-4.5 w-4.5" />
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider">
-                      Pathology Report Tracker
-                    </h4>
-                    <span className="text-[8px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest block">
-                      Live Digital NABL Lab Files
-                    </span>
+                  <div className="pt-2 mt-auto border-t border-slate-200/50 dark:border-slate-800/50">
+                    <button
+                      onClick={() => handleAction(specialty.id)}
+                      className="flex items-center gap-1 text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest hover:text-cyan-600 transition-colors group/btn cursor-pointer pt-3"
+                    >
+                      <span>Consult Department</span>
+                      <ArrowRight className="h-3 w-3 group-hover/btn:translate-x-1 transition-transform" />
+                    </button>
                   </div>
                 </div>
-
-                <p className="text-[10px] text-slate-555 dark:text-slate-400 font-semibold leading-relaxed">
-                  Enter your laboratory billing code to query your online verified blood values.
-                </p>
-
-                {/* Search Bar Input */}
-                <form onSubmit={handleReportSearch} className="flex gap-2">
-                  <div className="relative flex-1">
-                    <input
-                      type="text"
-                      placeholder="Enter Report ID (Demo: AR-5022)"
-                      value={reportSearchId}
-                      onChange={(e) => setReportSearchId(e.target.value)}
-                      className="w-full h-9 px-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-bold rounded-lg focus:outline-none focus:border-cyan-brand dark:text-white"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="h-9 px-4 bg-cyan-brand hover:bg-cyan-600 text-white font-extrabold text-[9px] uppercase tracking-wider rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
-                  >
-                    <Search className="h-3.5 w-3.5" />
-                    <span>Track</span>
-                  </button>
-                </form>
-
-                {/* Fetch suggestion link */}
-                <button
-                  type="button"
-                  onClick={loadDemoReportId}
-                  className="text-[9px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-wider text-left hover:text-cyan-600 block pl-1 cursor-pointer"
-                >
-                  ⚡ Auto-load Demo ID: AR-5022
-                </button>
-
-                {/* Display reports loader / errors */}
-                {loadingReport && (
-                  <div className="text-center py-6 text-slate-400 font-semibold text-[10px] animate-pulse">
-                    Querying Aarogya pathology server systems...
-                  </div>
-                )}
-
-                {reportError && (
-                  <div className="p-3 bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-450 border border-rose-100 dark:border-rose-950/40 rounded-xl text-[9.5px] font-bold text-center">
-                    {reportError}
-                  </div>
-                )}
-
-                {/* Display Digital NABL Report File */}
-                {activeReport && (
-                  <div className="bg-white dark:bg-slate-900 border border-slate-150/80 dark:border-slate-800 rounded-xl p-4 space-y-3.5 shadow-inner text-left max-h-56 overflow-y-auto custom-scrollbar">
-                    
-                    {/* File header */}
-                    <div className="flex justify-between items-start pb-2 border-b border-slate-100 dark:border-slate-800 text-[9px] font-bold uppercase tracking-wider">
-                      <div>
-                        <span className="text-slate-400 block text-[7.5px]">PATIENT NAME:</span>
-                        <span className="text-slate-800 dark:text-white">{activeReport.patient} ({activeReport.gender})</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-slate-400 block text-[7.5px]">LAB FILE ID:</span>
-                        <span className="text-cyan-brand">{activeReport.id}</span>
-                      </div>
-                    </div>
-
-                    {/* Parameter values checklist */}
-                    <div className="space-y-2">
-                      <span className="text-[7.5px] font-black text-slate-400 dark:text-slate-550 uppercase tracking-widest block">TEST ANALYSIS</span>
-                      <div className="space-y-1.5">
-                        {activeReport.parameters.map((param, idx) => (
-                          <div key={idx} className="flex justify-between items-center text-[9.5px] font-semibold">
-                            <span className="text-slate-600 dark:text-slate-350">{param.name}</span>
-                            <div className="text-right flex items-center gap-2">
-                              <span className="text-slate-400 italic text-[8.5px]">({param.range})</span>
-                              <span className={param.color}>{param.value}</span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Clinical summary */}
-                    <div className="p-2.5 bg-rose-50 dark:bg-rose-950/10 border border-rose-100 dark:border-rose-950/20 text-[9px] text-rose-800 dark:text-rose-400 leading-normal rounded-lg">
-                      <strong>Pathology Summary:</strong> {activeReport.summary}
-                    </div>
-
-                    {/* Pathology sign footer */}
-                    <div className="flex justify-between items-center text-[8px] font-bold text-slate-400 dark:text-slate-550 uppercase tracking-widest pt-1 border-t border-slate-100 dark:border-slate-800">
-                      <span>Status: {activeReport.status}</span>
-                      <span>Verified: {activeReport.pathologist}</span>
-                    </div>
-
-                  </div>
-                )}
-
               </div>
-
-              {/* Consult follow-up button based on report analysis */}
-              <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800/80">
-                {activeReport ? (
-                  <button
-                    onClick={() => handleAction('Cardiology')}
-                    className="w-full py-2 bg-gradient-to-r from-rose-600 to-rose-700 text-white font-extrabold text-[9px] uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer animate-pulse"
-                  >
-                    <Heart className="h-3.5 w-3.5" />
-                    <span>Follow-Up: Consult Aarogya Cardiologist</span>
-                  </button>
-                ) : (
-                  <div className="py-2 text-center text-slate-400 font-bold text-[9px] uppercase tracking-widest bg-slate-100/50 dark:bg-slate-800/50 rounded-lg border border-transparent">
-                    Awaiting report loading
-                  </div>
-                )}
-              </div>
-            </div>
-
-          </div>
+            );
+          })}
         </div>
 
         {/* 2. Diagnostic & Health Packages Grid */}
@@ -996,7 +498,7 @@ export default function Specialties({ onSelectSpecialty, scrollToSection }) {
                       {pkg.price}
                     </span>
                   </div>
-                  
+
                   <h4 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider leading-none">
                     {pkg.title}
                   </h4>
@@ -1007,7 +509,7 @@ export default function Specialties({ onSelectSpecialty, scrollToSection }) {
 
                 <div className="pt-5 border-t border-slate-200/50 dark:border-slate-800/50 mt-4">
                   <button
-                    onClick={() => handleBookPackage(pkg.title)}
+                    onClick={handleBookPackage}
                     className="w-full py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-cyan-brand/20 dark:hover:border-cyan-brand/20 text-cyan-brand dark:text-cyan-400 font-extrabold text-[9px] uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <span>Schedule Checkup</span>
@@ -1078,7 +580,7 @@ export default function Specialties({ onSelectSpecialty, scrollToSection }) {
                     <span>{faq.q}</span>
                     <span className="text-xs font-black">{isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}</span>
                   </button>
-                  
+
                   {isOpen && (
                     <div className="px-4 pb-4 pt-1 animate-in fade-in slide-in-from-top-1 duration-150">
                       <p className="text-xs text-slate-500 dark:text-slate-450 leading-relaxed font-semibold">
@@ -1127,174 +629,8 @@ export default function Specialties({ onSelectSpecialty, scrollToSection }) {
         </div>
 
       </div>
-
-      {/* ========================================================================= */}
-      {/* INTERACTIVE RIGHT SIDE SLIDE DRAWER (Specialty Detailed Explorer & Costs) */}
-      {/* ========================================================================= */}
-      {drawerSpecialty && (
-        <div className="fixed inset-0 z-50 overflow-hidden flex justify-end">
-          <div 
-            onClick={closeSpecialtyDrawer}
-            className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
-          ></div>
-
-          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 h-full shadow-2xl border-l border-slate-200 dark:border-slate-800 flex flex-col justify-between overflow-y-auto z-10 animate-in slide-in-from-right duration-300">
-            
-            <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-850">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-cyan-50 dark:bg-cyan-950/20 text-cyan-brand dark:text-cyan-400 border border-cyan-100 dark:border-cyan-950 rounded-lg flex items-center justify-center">
-                  {React.createElement(drawerSpecialty.icon, { className: "h-4 w-4" })}
-                </div>
-                <div>
-                  <h3 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wide">
-                    {drawerSpecialty.name} Center
-                  </h3>
-                  <span className="text-[8px] font-bold text-cyan-brand dark:text-cyan-400 uppercase tracking-wider block">
-                    Interactive Estimator Portal
-                  </span>
-                </div>
-              </div>
-              <button 
-                onClick={closeSpecialtyDrawer}
-                className="p-1.5 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg text-slate-500 dark:text-slate-400 transition-colors cursor-pointer"
-              >
-                <X className="h-4.5 w-4.5" />
-              </button>
-            </div>
-
-            <div className="p-6 flex-1 space-y-6">
-              
-              <div className="space-y-3 bg-slate-50 dark:bg-slate-800/40 p-4 border border-slate-150/60 dark:border-slate-800/60 rounded-2xl">
-                <h4 className="text-[10px] font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                  <Calculator className="h-3.5 w-3.5 text-cyan-brand" />
-                  Surgery Cost & IPD Estimator
-                </h4>
-                <p className="text-[9.5px] text-slate-500 dark:text-slate-400 font-semibold leading-relaxed">
-                  Select a clinical surgery package to calculate average hospital stay guidelines and billing:
-                </p>
-
-                <div className="relative">
-                  <select
-                    value={selectedProcedureIdx}
-                    onChange={(e) => setSelectedProcedureIdx(parseInt(e.target.value))}
-                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2.5 rounded-lg text-xs font-bold text-slate-800 dark:text-white focus:outline-none focus:border-cyan-brand"
-                  >
-                    {drawerSpecialty.procedures.map((proc, idx) => (
-                      <option key={idx} value={idx}>{proc.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 pt-2">
-                  <div className="bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-150 dark:border-slate-800 shadow-sm text-center">
-                    <span className="text-[8px] font-bold text-slate-400 dark:text-slate-550 uppercase tracking-widest block mb-0.5">Est. Bill</span>
-                    <span className="text-xs font-black text-slate-800 dark:text-white">
-                      ₹{drawerSpecialty.procedures[selectedProcedureIdx].baseCost.toLocaleString('en-IN')}
-                    </span>
-                  </div>
-                  <div className="bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-150 dark:border-slate-800 shadow-sm text-center">
-                    <span className="text-[8px] font-bold text-slate-400 dark:text-slate-550 uppercase tracking-widest block mb-0.5">Stay Period</span>
-                    <span className="text-xs font-black text-slate-855 dark:text-white flex items-center justify-center gap-1">
-                      <Clock className="h-3 w-3 text-cyan-brand" />
-                      {drawerSpecialty.procedures[selectedProcedureIdx].stay}
-                    </span>
-                  </div>
-                  <div className="bg-white dark:bg-slate-900 p-3 rounded-lg border border-slate-150 dark:border-slate-800 shadow-sm text-center">
-                    <span className="text-[8px] font-bold text-slate-400 dark:text-slate-550 uppercase tracking-widest block mb-0.5">Recovery</span>
-                    <span className="text-xs font-black text-slate-855 dark:text-white">
-                      {drawerSpecialty.procedures[selectedProcedureIdx].rehab}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex gap-2 items-start p-2 bg-emerald-50 dark:bg-emerald-950/20 rounded-lg border border-emerald-100 dark:border-emerald-950/40 text-[9.5px] text-emerald-700 dark:text-emerald-400 font-semibold leading-relaxed">
-                  <ShieldCheck className="h-3.5 w-3.5 shrink-0 mt-0.5" />
-                  <span>95%+ Insurance TPA Cashless claims pre-approved. Standard pre-authorization approval time: 4 Hours.</span>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <h4 className="text-[10px] font-black text-slate-850 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                  <UserCheck className="h-3.5 w-3.5 text-cyan-brand" />
-                  OPD Consultants On Duty Today
-                </h4>
-                
-                <div className="space-y-2.5">
-                  {drawerSpecialty.doctorsOnDuty.map((doc, idx) => (
-                    <div key={idx} className="bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800 p-3.5 rounded-xl flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <span className="text-xs font-black text-slate-800 dark:text-white block uppercase tracking-wide">{doc.name}</span>
-                        <span className="text-[8.5px] font-bold text-slate-400 dark:text-slate-500 block uppercase tracking-wider">{doc.time}</span>
-                      </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider ${
-                          doc.status === 'Available' 
-                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-400' 
-                            : doc.status === 'In Surgery' 
-                              ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/30 dark:text-rose-455' 
-                              : 'bg-amber-100 text-amber-800 dark:bg-amber-950/30 dark:text-amber-400'
-                        }`}>
-                          {doc.status}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pt-2">
-                  {!callbackRequested ? (
-                    <button
-                      onClick={handleRequestCallback}
-                      className="w-full py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200 font-extrabold text-[9px] uppercase tracking-widest rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                    >
-                      <MessageSquare className="h-3.5 w-3.5 text-cyan-brand" />
-                      <span>Request Instant Duty Doctor Callback</span>
-                    </button>
-                  ) : (
-                    <div className="p-3 bg-cyan-50 dark:bg-cyan-950/20 text-cyan-brand dark:text-cyan-400 rounded-xl border border-cyan-100 dark:border-cyan-950 text-[10px] font-bold text-center animate-pulse">
-                      Callback request registered! A medical representative will phone you at your registered number in 10 minutes.
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="text-[10px] font-black text-slate-850 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                  <Info className="h-3.5 w-3.5 text-cyan-brand" />
-                  Treated Clinical Illnesses
-                </h4>
-                <div className="grid grid-cols-2 gap-2 bg-slate-50/50 dark:bg-slate-800/20 p-3 rounded-xl border border-slate-150/40 dark:border-slate-800/40">
-                  {drawerSpecialty.services.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-1.5 text-[9.5px] font-bold text-slate-600 dark:text-slate-350">
-                      <Check className="h-3 w-3 text-cyan-brand shrink-0" />
-                      <span className="truncate">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-
-            <div className="p-6 border-t border-slate-100 dark:border-slate-800 flex gap-4 bg-slate-50 dark:bg-slate-850">
-              <button
-                onClick={closeSpecialtyDrawer}
-                className="w-1/3 py-3 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-extrabold text-[9.5px] uppercase tracking-widest rounded-xl transition-all cursor-pointer"
-              >
-                Close Portal
-              </button>
-              <button
-                onClick={handleActionFromDrawer}
-                className="w-2/3 py-3 bg-cyan-brand hover:bg-cyan-600 text-white font-extrabold text-[9.5px] uppercase tracking-widest rounded-xl shadow-md transition-all active:scale-[0.98] cursor-pointer"
-              >
-                Consult {drawerSpecialty.name} Doctor
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
-
     </section>
   );
 }
+
+export { specialtiesData };
