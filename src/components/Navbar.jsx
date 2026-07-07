@@ -9,7 +9,6 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
     { label: 'SPECIALITIES', id: 'specialties' },
     { label: 'FIND DOCTORS', id: 'doctors' },
     { label: 'BOOK APPOINTMENT', id: 'booking' },
-    { label: 'DASHBOARD', id: 'dashboard' },
     { label: 'CONTACT', id: 'contact' },
   ];
 

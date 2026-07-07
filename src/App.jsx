@@ -7,7 +7,6 @@ import DoctorSearch from './components/DoctorSearch';
 import DoctorCard from './components/DoctorCard';
 import DoctorModal from './components/DoctorModal';
 import SuccessModal from './components/SuccessModal';
-import AppointmentList from './components/AppointmentList';
 import LatestNews from './components/LatestNews';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
@@ -57,7 +56,7 @@ export default function App() {
 
   // Intersection Observer for smooth, lag-free active navigation tracking
   useEffect(() => {
-    const sections = ['home', 'specialties', 'doctors', 'dashboard', 'contact'];
+    const sections = ['home', 'specialties', 'doctors', 'contact'];
     
     const observerOptions = {
       root: null, // Viewport
@@ -326,16 +325,6 @@ ${newAppointment.reason}
         </div>
       </section>
 
-      {/* Upcoming Bookings Section */}
-      <div id="dashboard" className="bg-white dark:bg-slate-900 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-          <AppointmentList 
-            appointments={appointments}
-            onCancelAppointment={handleCancelAppointment}
-            onConfirmAppointment={handleConfirmAppointment}
-          />
-        </div>
-      </div>
 
       {/* Latest Health News Articles */}
       <LatestNews onSelectSpecialty={handleSelectSpecialtyFromNews} />

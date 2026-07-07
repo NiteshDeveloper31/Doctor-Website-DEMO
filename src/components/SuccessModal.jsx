@@ -83,22 +83,12 @@ export default function SuccessModal({ isOpen, onClose, appointmentDetails, scro
         </div>
 
         {/* Buttons */}
-        <div className="flex gap-3">
+        <div className="flex">
           <button
             onClick={onClose}
-            className="flex-1 py-3 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-350 border border-slate-200 dark:border-slate-800 font-bold text-xs rounded-xl hover:bg-slate-50 transition-colors"
+            className="w-full py-3 bg-cyan-brand hover:bg-cyan-600 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-md transition-colors"
           >
             Close Dialog
-          </button>
-          
-          <button
-            onClick={() => {
-              scrollToSection('dashboard');
-              onClose();
-            }}
-            className="flex-1 py-3 bg-medical-primary dark:bg-medical-500 hover:bg-medical-primaryDark dark:hover:bg-medical-600 text-white font-bold text-xs rounded-xl shadow-md transition-colors"
-          >
-            View Dashboard
           </button>
         </div>
 
