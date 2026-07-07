@@ -12,7 +12,7 @@ export default function DoctorCard({ doctor, onSelectDoctor, onViewProfile }) {
           src={doctor.image}
           name={doctor.name}
           specialty={doctor.specialization}
-          className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+          className="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-300"
         />
         {/* Specialization Badge */}
         <div className="absolute top-3 left-3">

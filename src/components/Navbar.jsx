@@ -6,6 +6,7 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
 
   const navItems = [
     { label: 'HOME', id: 'home' },
+    { label: 'SPECIALITIES', id: 'specialties' },
     { label: 'FIND DOCTORS', id: 'doctors' },
     { label: 'BOOK APPOINTMENT', id: 'booking' },
     { label: 'DASHBOARD', id: 'dashboard' },
@@ -16,9 +17,9 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
     <nav className="sticky top-0 z-50 transition-all duration-300 w-full bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          
+
           {/* Logo - Circular Blue Icon + Text */}
-          <div 
+          <div
             className="flex items-center gap-3 cursor-pointer group"
             onClick={() => scrollToSection('home')}
           >
@@ -47,11 +48,10 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
                     scrollToSection(item.id);
                     setIsOpen(false);
                   }}
-                  className={`text-[11px] font-extrabold tracking-wider px-0.5 py-1.5 transition-all duration-200 border-b-2 ${
-                    isActive 
-                      ? 'border-cyan-brand text-cyan-brand dark:text-cyan-400' 
-                      : 'border-transparent text-slate-600 dark:text-slate-350 hover:text-cyan-brand'
-                  }`}
+                  className={`text-[11px] font-extrabold tracking-wider px-0.5 py-1.5 transition-all duration-200 border-b-2 ${isActive
+                    ? 'border-cyan-brand text-cyan-brand dark:text-cyan-400'
+                    : 'border-transparent text-slate-600 dark:text-slate-350 hover:text-cyan-brand'
+                    }`}
                 >
                   {item.label}
                 </button>
@@ -62,8 +62,8 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
           {/* Right Action Area: Helpline & Dark Toggle */}
           <div className="hidden lg:flex items-center gap-4">
             {/* Light blue/grey hotline pill */}
-            <a 
-              href="tel:+911800123456" 
+            <a
+              href="tel:+911800123456"
               className="flex items-center gap-2 px-4 py-2 bg-[#e8f4fd] dark:bg-slate-800/80 text-[#436577] dark:text-[#93b3c3] rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200"
             >
               <PhoneCall className="h-3.5 w-3.5" />
@@ -113,11 +113,10 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
                     scrollToSection(item.id);
                     setIsOpen(false);
                   }}
-                  className={`text-left py-3 px-4 rounded font-bold text-xs tracking-wide transition-all ${
-                    isActive 
-                      ? 'bg-cyan-brand text-white' 
-                      : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-                  }`}
+                  className={`text-left py-3 px-4 rounded font-bold text-xs tracking-wide transition-all ${isActive
+                    ? 'bg-cyan-brand text-white'
+                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                    }`}
                 >
                   {item.label}
                 </button>
@@ -128,8 +127,8 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
           <hr className="border-slate-200 dark:border-slate-800" />
 
           {/* Mobile Hotline */}
-          <a 
-            href="tel:+911800123456" 
+          <a
+            href="tel:+911800123456"
             className="flex items-center justify-center gap-3.5 w-full py-3.5 bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-450 border border-rose-200 dark:border-rose-900/50 rounded-xl font-extrabold text-xs"
           >
             <PhoneCall className="h-4 w-4" />

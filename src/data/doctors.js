@@ -1,3 +1,11 @@
+import dr1 from '../assets/dr1.jpg';
+import dr2 from '../assets/dr2.jpg';
+import dr3 from '../assets/dr3.jpg';
+import dr4 from '../assets/dr4.jpg';
+import dr5 from '../assets/dr5.jpg';
+import dr6 from '../assets/dr6.jpg';
+import dr7 from '../assets/dr7.jpg';
+
 export const doctorsData = [
   {
     id: 1,
@@ -9,14 +17,14 @@ export const doctorsData = [
     reviews: 124,
     availability: "Mon - Sat",
     slots: ["09:00 AM", "10:30 AM", "11:00 AM", "02:30 PM", "04:00 PM"],
-    image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=400&auto=format&fit=crop",
+    image: dr1,
     bio: "Dr. Rajesh Kumar is a senior consultant cardiologist at Medico Life Hospital with over 15 years of experience in interventional cardiology. He completed his DM in Cardiology from AIIMS New Delhi and specializes in coronary angioplasty and preventive cardiac care.",
     qualifications: "MD (Medicine), DM (Cardiology) - AIIMS New Delhi",
     email: "np370768@gmail.com"
   },
   {
     id: 2,
-    name: "Dr. Ananya Sharma",
+    name: "Dr. Rohit Pawar",
     specialization: "Pediatrics",
     experience: 10,
     fee: 600,
@@ -24,10 +32,10 @@ export const doctorsData = [
     reviews: 98,
     availability: "Mon - Fri",
     slots: ["10:00 AM", "11:30 AM", "12:00 PM", "03:00 PM", "04:30 PM"],
-    image: "https://images.unsplash.com/photo-1594824813573-246434de83fb?q=80&w=400&auto=format&fit=crop",
-    bio: "Dr. Ananya Sharma is a compassionate pediatrician specializing in neonatal intensive care and general childhood developmental health. With post-graduate training from PGIMER Chandigarh, she has spent a decade caring for children of all ages.",
+    image: dr2,
+    bio: "Dr. Rohit Pawar is a compassionate pediatrician specializing in neonatal intensive care and general childhood developmental health. With post-graduate training from PGIMER Chandigarh, he has spent a decade caring for children of all ages.",
     qualifications: "MBBS, DCH (Pediatrics) - PGIMER Chandigarh",
-    email: "dr.ananya@medicolife.in"
+    email: "dr.rohit@medicolife.in"
   },
   {
     id: 3,
@@ -39,7 +47,7 @@ export const doctorsData = [
     reviews: 85,
     availability: "Mon, Wed, Fri",
     slots: ["09:30 AM", "10:00 AM", "11:30 AM", "03:30 PM", "05:00 PM"],
-    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=400&auto=format&fit=crop",
+    image: dr7,
     bio: "Dr. Amit Patel specializes in joint replacement surgery, sports medicine, and advanced orthopedic trauma. He is highly regarded for his emphasis on non-surgical rehabilitation techniques and post-operation physical recovery planning.",
     qualifications: "MS (Orthopedics), M.Ch (Orthopedics) - KGMU Lucknow",
     email: "dr.amit@medicolife.in"
@@ -54,7 +62,7 @@ export const doctorsData = [
     reviews: 142,
     availability: "Mon - Sat",
     slots: ["09:00 AM", "11:00 AM", "02:00 PM", "03:30 PM", "05:30 PM"],
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&auto=format&fit=crop",
+    image: dr4,
     bio: "Dr. Priya Nair is an expert in high-risk obstetrics, infertility management, and advanced laparoscopic gynecology. She is passionate about empowering women through health education and providing comprehensive prenatal and postnatal care.",
     qualifications: "MD (Obstetrics & Gynecology) - Madras Medical College",
     email: "dr.priya@medicolife.in"
@@ -69,7 +77,7 @@ export const doctorsData = [
     reviews: 110,
     availability: "Tue, Thu, Sat",
     slots: ["10:30 AM", "11:30 AM", "02:00 PM", "04:00 PM"],
-    image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=400&auto=format&fit=crop",
+    image: dr5,
     bio: "Dr. Vikram Malhotra is a world-class neurologist with extensive experience in stroke management, epilepsy treatments, and neuro-muscular disorders. Formerly a research fellow at NIMHANS Bangalore, he leads the hospital's neurology board.",
     qualifications: "MD (Medicine), DM (Neurology) - NIMHANS Bangalore",
     email: "dr.vikram@medicolife.in"
@@ -84,7 +92,7 @@ export const doctorsData = [
     reviews: 76,
     availability: "Mon - Fri",
     slots: ["09:30 AM", "10:30 AM", "12:00 PM", "03:00 PM", "04:00 PM"],
-    image: "https://images.unsplash.com/photo-1622960206062-f61f7e657f2f?q=80&w=400&auto=format&fit=crop",
+    image: dr6,
     bio: "Dr. Sunita Rao specializes in clinical dermatology, skin cancer screenings, and aesthetic skincare procedures. He takes a holistic approach to skin health, designing customized skincare regimens that address root conditions.",
     qualifications: "MD (Dermatology, Venereology & Leprosy) - GMC Mumbai",
     email: "dr.sunita@medicolife.in"

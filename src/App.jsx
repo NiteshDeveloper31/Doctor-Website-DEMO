@@ -3,7 +3,6 @@ import emailjs from '@emailjs/browser';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import FeatureGrid from './components/FeatureGrid';
-import StatsDashboard from './components/StatsDashboard';
 import DoctorSearch from './components/DoctorSearch';
 import DoctorCard from './components/DoctorCard';
 import DoctorModal from './components/DoctorModal';
@@ -12,6 +11,7 @@ import AppointmentList from './components/AppointmentList';
 import LatestNews from './components/LatestNews';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
+import Specialties from './components/Specialties';
 
 import { doctorsData } from './data/doctors';
 import { initialAppointments } from './data/appointments';
@@ -57,7 +57,7 @@ export default function App() {
 
   // Intersection Observer for smooth, lag-free active navigation tracking
   useEffect(() => {
-    const sections = ['home', 'doctors', 'dashboard', 'contact'];
+    const sections = ['home', 'specialties', 'doctors', 'dashboard', 'contact'];
     
     const observerOptions = {
       root: null, // Viewport
@@ -268,6 +268,12 @@ ${newAppointment.reason}
       {/* 4-column Services features directly under Hero */}
       <FeatureGrid />
 
+      {/* Specialties section */}
+      <Specialties 
+        onSelectSpecialty={handleSelectSpecialtyFromNews} 
+        scrollToSection={scrollToSection} 
+      />
+
       {/* Core Doctors Directory Container */}
       <section id="doctors" className="py-16 bg-slate-50/50 dark:bg-slate-950/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -320,13 +326,8 @@ ${newAppointment.reason}
         </div>
       </section>
 
-      {/* Dashboard Analytics & Upcoming Bookings Section */}
+      {/* Upcoming Bookings Section */}
       <div id="dashboard" className="bg-white dark:bg-slate-900 py-8">
-        <StatsDashboard 
-          appointments={appointments} 
-          doctorsCount={doctors.length}
-        />
-        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
           <AppointmentList 
             appointments={appointments}

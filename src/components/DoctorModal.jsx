@@ -36,7 +36,7 @@ export default function DoctorModal({ doctor, isOpen, onClose, onBookAppointment
               src={doctor.image}
               name={doctor.name}
               specialty={doctor.specialization}
-              className="w-full md:w-44 h-44 object-cover rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md"
+              className="w-full md:w-44 h-44 object-cover object-top rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md"
             />
             <div className="space-y-3 w-full">
               <span className="px-3 py-1 bg-medical-50 dark:bg-medical-950/40 text-medical-primary dark:text-medical-400 font-extrabold text-[10px] uppercase tracking-wider rounded-lg border border-medical-100 dark:border-medical-950">
