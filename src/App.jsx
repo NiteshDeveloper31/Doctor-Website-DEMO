@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import Specialties from './components/Specialties';
 import WhyChooseUs from './components/WhyChooseUs';
 import BookingFormPage from './components/BookingFormPage';
+import SubPageHero from './components/SubPageHero';
 
 import { doctorsData } from './data/doctors';
 import { initialAppointments } from './data/appointments';
@@ -246,7 +247,12 @@ ${newAppointment.reason}
       )}
 
       {activeSection === 'specialties' && (
-        <div className="min-h-[70vh]">
+        <div className="min-h-[70vh] bg-slate-50/30 dark:bg-slate-955/20 pb-16">
+          <SubPageHero 
+            title="Clinical Specialties" 
+            subtitle="Choose from our wide range of world-class medical departments staffed by board-certified consultants." 
+            breadcrumb="Specialties"
+          />
           {/* Specialties section */}
           <Specialties 
             onSelectSpecialty={handleSelectSpecialtyFromNews} 
@@ -256,72 +262,77 @@ ${newAppointment.reason}
       )}
 
       {activeSection === 'booking' && (
-        <BookingFormPage 
-          doctors={doctors}
-          selectedDoctor={selectedDoctorForBooking}
-          setSelectedDoctor={setSelectedDoctorForBooking}
-          onBookingSubmit={handleCreateAppointment}
-        />
+        <div className="min-h-[70vh] bg-slate-50/30 dark:bg-slate-955/20 pb-16">
+          <SubPageHero 
+            title="Book Appointment" 
+            subtitle="Schedule clinical checkups or virtual consultations with India's top medical practitioners." 
+            breadcrumb="Book Appointment"
+          />
+          <BookingFormPage 
+            doctors={doctors}
+            selectedDoctor={selectedDoctorForBooking}
+            setSelectedDoctor={setSelectedDoctorForBooking}
+            onBookingSubmit={handleCreateAppointment}
+          />
+        </div>
       )}
 
       {activeSection === 'doctors' && (
-        <section id="doctors" className="py-16 bg-slate-50/50 dark:bg-slate-955 min-h-[70vh]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-            
-            {/* Header */}
-            <div className="text-center max-w-2xl mx-auto space-y-2">
-              <span className="text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest leading-none">
-                OUR SPECIALISTS
-              </span>
-              <h2 className="text-2xl font-black text-slate-800 dark:text-white uppercase tracking-wider">
-                Our Doctors
-              </h2>
-              <div className="h-1 w-16 bg-cyan-brand mx-auto"></div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 pt-1">
-                Browse through our team of highly accredited medical consultants and schedule immediate visits.
-              </p>
+        <div className="min-h-[70vh] bg-slate-50/30 dark:bg-slate-955/20">
+          <SubPageHero 
+            title="Find Doctors" 
+            subtitle="Browse through our team of highly accredited medical consultants and schedule immediate visits." 
+            breadcrumb="Find Doctors"
+          />
+          <section id="doctors" className="py-12 bg-slate-50/50 dark:bg-slate-955">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+              
+              {/* Search filters */}
+              <DoctorSearch 
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                selectedSpecialty={selectedSpecialty}
+                setSelectedSpecialty={setSelectedSpecialty}
+              />
+
+              {/* Doctors Grid */}
+              {filteredDoctors.length === 0 ? (
+                <div className="text-center py-20 bg-white dark:bg-slate-900 rounded border border-dashed border-slate-200 dark:border-slate-800">
+                  <p className="text-slate-550 dark:text-slate-400 font-semibold text-sm">
+                    No specialists found matching your current filter criteria.
+                  </p>
+                  <button 
+                    onClick={() => { setSearchQuery(""); setSelectedSpecialty("All"); }}
+                    className="mt-3 text-xs font-bold text-cyan-brand hover:underline"
+                  >
+                    Reset Search Filters
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {filteredDoctors.map(doctor => (
+                    <DoctorCard 
+                      key={doctor.id}
+                      doctor={doctor}
+                      onSelectDoctor={handleSelectDoctorForBooking}
+                      onViewProfile={(doc) => setSelectedDoctorForModal(doc)}
+                    />
+                  ))}
+                </div>
+              )}
+
             </div>
-
-            {/* Search filters */}
-            <DoctorSearch 
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              selectedSpecialty={selectedSpecialty}
-              setSelectedSpecialty={setSelectedSpecialty}
-            />
-
-            {/* Doctors Grid */}
-            {filteredDoctors.length === 0 ? (
-              <div className="text-center py-20 bg-white dark:bg-slate-900 rounded border border-dashed border-slate-200 dark:border-slate-800">
-                <p className="text-slate-550 dark:text-slate-400 font-semibold text-sm">
-                  No specialists found matching your current filter criteria.
-                </p>
-                <button 
-                  onClick={() => { setSearchQuery(""); setSelectedSpecialty("All"); }}
-                  className="mt-3 text-xs font-bold text-cyan-brand hover:underline"
-                >
-                  Reset Search Filters
-                </button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredDoctors.map(doctor => (
-                  <DoctorCard 
-                    key={doctor.id}
-                    doctor={doctor}
-                    onSelectDoctor={handleSelectDoctorForBooking}
-                    onViewProfile={(doc) => setSelectedDoctorForModal(doc)}
-                  />
-                ))}
-              </div>
-            )}
-
-          </div>
-        </section>
+          </section>
+        </div>
       )}
 
       {activeSection === 'contact' && (
-        <div className="min-h-[70vh]">
+        <div className="min-h-[70vh] bg-slate-50/30 dark:bg-slate-955/20 pb-16">
+          <SubPageHero 
+            title="Contact Us" 
+            subtitle="Reach out to our emergency support networks or walk into our sector-62 Noida campus." 
+            breadcrumb="Contact Us"
+          />
           {/* Hospital Coordinates section */}
           <ContactSection />
         </div>

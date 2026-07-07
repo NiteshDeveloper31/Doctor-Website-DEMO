@@ -17,6 +17,12 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
   const [isLoading, setIsLoading] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
 
+  // Prescription Scanner OCR states
+  const [isScanning, setIsScanning] = useState(false);
+  const [scanProgress, setScanProgress] = useState(0);
+  const [scanMessage, setScanMessage] = useState('');
+  const [scanSuccess, setScanSuccess] = useState(false);
+
   // Sync selected doctor from cards/modal
   useEffect(() => {
     if (selectedDoctor) {
@@ -34,6 +40,12 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
     return today.toISOString().split('T')[0];
   };
 
+  const getTomorrowDateString = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('T')[0];
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -47,6 +59,56 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
     if (file) {
       setFormData(prev => ({ ...prev, fileName: file.name }));
     }
+  };
+
+  const handlePrescriptionScan = () => {
+    setIsScanning(true);
+    setScanProgress(10);
+    setScanMessage('Connecting to Aarogya OCR Cloud...');
+
+    setTimeout(() => {
+      setScanProgress(35);
+      setScanMessage('Uploading prescription file structure...');
+    }, 700);
+
+    setTimeout(() => {
+      setScanProgress(60);
+      setScanMessage('Extracting handwritten patient profiles & clinic details...');
+    }, 1400);
+
+    setTimeout(() => {
+      setScanProgress(85);
+      setScanMessage('Matching recommended Orthopedic consultant (Dr. Rohit Pawar)...');
+    }, 2100);
+
+    setTimeout(() => {
+      setScanProgress(100);
+      setScanMessage('Form populated successfully!');
+      
+      setFormData(prev => ({
+        ...prev,
+        patientName: 'Rohan Verma',
+        phone: '9876543210',
+        email: 'rohan.verma@gmail.com',
+        doctorId: '2', // Dr. Rohit Pawar (Orthopedics)
+        reason: 'Severe chronic knee pain and joint stiffness advised for immediate orthopedic clinical review.',
+        date: getTomorrowDateString(),
+        fileName: 'prescription_noida_verma.jpg'
+      }));
+
+      // Automatically sync the doctor selection callback
+      const orthodoc = doctors.find(doc => doc.id === 2);
+      if (orthodoc && setSelectedDoctor) {
+        setSelectedDoctor(orthodoc);
+      }
+
+      setScanSuccess(true);
+    }, 2800);
+
+    setTimeout(() => {
+      setIsScanning(false);
+      setScanSuccess(false);
+    }, 4500);
   };
 
   const validateForm = () => {
@@ -123,29 +185,78 @@ export default function BookingFormPage({ doctors = [], selectedDoctor, setSelec
   ];
 
   return (
-    <div className="py-12 bg-slate-50 dark:bg-slate-955 transition-colors duration-300 min-h-[80vh]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        
-        {/* Page Header */}
-        <div className="max-w-3xl space-y-2">
-          <span className="text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">
-            REGISTRATION PORTAL
-          </span>
-          <h2 className="text-3xl font-black text-slate-800 dark:text-white uppercase tracking-wider leading-tight">
-            Schedule Appointment
-          </h2>
-          <div className="h-1 w-16 bg-cyan-brand"></div>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Book in-person checkups or telehealth video consultations. Please fill out the patient details below.
-          </p>
-        </div>
+    <div className="py-8 bg-slate-50 dark:bg-slate-955 transition-colors duration-300 min-h-[80vh]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
         {/* 2-Column Booking Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Column 1: Detailed Booking Form (Spans 7 cols on desktop) */}
-          <div className="lg:col-span-7 bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 rounded-2xl p-6 md:p-8 shadow-sm">
+          <div className="lg:col-span-7 bg-white dark:bg-slate-900 border border-slate-150/60 dark:border-slate-800/80 rounded-2xl p-6 md:p-8 shadow-sm relative overflow-hidden">
             
+            {/* Prescription Scanning Overlay */}
+            {isScanning && (
+              <div className="absolute inset-0 bg-slate-900/95 backdrop-blur-xs z-30 flex flex-col items-center justify-center text-center p-6 space-y-4">
+                <style>{`
+                  @keyframes scan-beam {
+                    0% { top: 0%; opacity: 0.8; }
+                    50% { top: 100%; opacity: 1; }
+                    100% { top: 0%; opacity: 0.8; }
+                  }
+                `}</style>
+                <div 
+                  className="absolute left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-cyan-brand to-transparent shadow-[0_0_12px_#00bcd4]" 
+                  style={{
+                    animation: 'scan-beam 2.2s ease-in-out infinite',
+                  }}
+                ></div>
+
+                <div className="p-4 bg-cyan-950/40 border border-cyan-800/40 rounded-full text-cyan-brand animate-pulse">
+                  <Upload className="h-8 w-8" />
+                </div>
+
+                <h3 className="text-sm font-black text-white uppercase tracking-wider">
+                  Prescription OCR Scanner Active
+                </h3>
+
+                <div className="w-56 bg-slate-800 rounded-full h-2.5 overflow-hidden border border-slate-700">
+                  <div 
+                    className="bg-cyan-brand h-full transition-all duration-300 shadow-[0_0_8px_#00bcd4]" 
+                    style={{ width: `${scanProgress}%` }}
+                  ></div>
+                </div>
+
+                <span className="text-[10px] font-bold text-cyan-455 uppercase tracking-widest block max-w-xs leading-relaxed">
+                  {scanMessage}
+                </span>
+
+                {scanSuccess && (
+                  <div className="p-2 bg-emerald-950/40 border border-emerald-800/40 rounded-lg text-emerald-450 text-[9px] font-bold uppercase tracking-wider">
+                    Success! Checkup data parsed & populated.
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* OCR Auto-Fill banner */}
+            <div className="mb-5 p-3.5 bg-slate-50 dark:bg-slate-850 rounded-xl border border-slate-150/80 dark:border-slate-800 flex items-center justify-between gap-4">
+              <div className="space-y-0.5">
+                <span className="text-[9px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">
+                  ⚡ Smart Registration
+                </span>
+                <p className="text-[9.5px] text-slate-500 dark:text-slate-400 font-semibold leading-tight">
+                  Have a doctor's prescription? Auto-fill the entire booking form in one click.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handlePrescriptionScan}
+                className="px-3 py-2 bg-gradient-to-r from-cyan-brand to-[#0097a7] hover:from-cyan-600 hover:to-[#00838f] text-white font-extrabold text-[9px] uppercase tracking-widest rounded-lg transition-colors cursor-pointer shrink-0 shadow-sm"
+              >
+                Scan Prescription
+              </button>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-6">
               
               {/* Form Section: consultation Mode selection */}

@@ -30,21 +30,11 @@ export default function ContactSection() {
   ];
 
   return (
-    <section id="contact" className="py-16 relative">
+    <section id="contact" className="py-12 relative">
       {/* Decorative Orbs */}
       <div className="absolute bottom-10 left-10 w-72 h-72 bg-medical-50 dark:bg-medical-950/10 rounded-full blur-3xl -z-10 animate-pulse-slow"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Connect With Aarogya Life
-          </h2>
-          <p className="mt-2 text-slate-500 dark:text-slate-400">
-            Reach out to our emergency support desk or walk into our sector-62 Noida campus.
-          </p>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
