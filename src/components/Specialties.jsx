@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Baby, Bone, Activity, Brain, Sparkles, AlertCircle, ArrowRight, Check } from 'lucide-react';
+import { Heart, Baby, Bone, Activity, Brain, Sparkles, AlertCircle, ArrowRight, Check, ShieldCheck, Settings, Microscope } from 'lucide-react';
 
 const specialtiesData = [
   {
@@ -73,6 +73,55 @@ const symptomList = [
   { label: 'Severe Hair Loss', value: 'hair_loss', department: 'Dermatology' }
 ];
 
+const packages = [
+  {
+    title: "Basic Health Checkup",
+    price: "₹999",
+    tests: "24 Tests Included",
+    details: "Complete Blood Count (CBC), Kidney Function Tests, Liver Profile, Thyroid (TSH), Blood Sugar, Urine Routine.",
+    color: "from-blue-500/10 to-blue-500/20 text-blue-600 dark:text-blue-400"
+  },
+  {
+    title: "Cardiac Wellness Check",
+    price: "₹2,499",
+    tests: "32 Tests Included",
+    details: "Lipid Profile, Electrocardiogram (ECG), Blood Sugar Fasting, Treadmill Test (TMT), Cardiologist Consultation.",
+    color: "from-rose-500/10 to-rose-500/20 text-rose-600 dark:text-rose-455"
+  },
+  {
+    title: "Women's Wellness Care",
+    price: "₹1,999",
+    tests: "28 Tests Included",
+    details: "Pap Smear, Thyroid Profile (T3/T4/TSH), Complete Hemogram, Pelvic Ultrasound, Gynecologist Consultation.",
+    color: "from-purple-500/10 to-purple-500/20 text-purple-600 dark:text-purple-400"
+  },
+  {
+    title: "Active Senior Citizen Check",
+    price: "₹3,499",
+    tests: "40 Tests Included",
+    details: "Liver & Kidney Panels, Diabetic screening, Bone Mineral Density scan, Vitamin D3 & B12, Orthopedic Review.",
+    color: "from-emerald-500/10 to-emerald-500/20 text-emerald-600 dark:text-emerald-400"
+  }
+];
+
+const labs = [
+  {
+    title: "Advanced Radiology Lab",
+    desc: "Equipped with 3-Tesla MRI machines and 128-slice CT scanners for quick, high-precision scans.",
+    icon: Settings
+  },
+  {
+    title: "NABH Accredited Pathology",
+    desc: "24/7 fully automated laboratory testing for quick, verified blood reports under 4 hours.",
+    icon: Microscope
+  },
+  {
+    title: "Modular Clean OTs",
+    desc: "Modular operation theatres with laminar air flows to maintain zero-infection surgical zones.",
+    icon: ShieldCheck
+  }
+];
+
 export default function Specialties({ onSelectSpecialty, scrollToSection }) {
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [recommendedDept, setRecommendedDept] = useState(null);
@@ -119,9 +168,14 @@ export default function Specialties({ onSelectSpecialty, scrollToSection }) {
     scrollToSection('doctors');
   };
 
+  const handleBookPackage = (pkgTitle) => {
+    scrollToSection('booking');
+    // Autofill reason or doctor selector if possible can be done, but scrolling to booking form is primary
+  };
+
   return (
     <section id="specialties" className="py-16 bg-white dark:bg-slate-900 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -159,7 +213,7 @@ export default function Specialties({ onSelectSpecialty, scrollToSection }) {
                         <h3 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wide">
                           {specialty.name}
                         </h3>
-                        <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
+                        <span className="text-[9px] font-bold text-slate-400 dark:text-slate-550 uppercase tracking-wider block">
                           {specialty.stats}
                         </span>
                       </div>
@@ -195,7 +249,7 @@ export default function Specialties({ onSelectSpecialty, scrollToSection }) {
             })}
           </div>
 
-          {/* Bento Box: Symptom-to-Specialty Finder Card (Spans 1 col) */}
+          {/* Bento Box: Symptom-to-Specialty Finder Card */}
           <div className="bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl p-6 lg:sticky lg:top-24 space-y-5">
             <div>
               <h3 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-wide flex items-center gap-1.5">
@@ -268,6 +322,90 @@ export default function Specialties({ onSelectSpecialty, scrollToSection }) {
 
           </div>
 
+        </div>
+
+        {/* 2. Diagnostic & Health Packages Grid (Detailed addition) */}
+        <div className="pt-10 space-y-8 border-t border-slate-100 dark:border-slate-800/80">
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <span className="text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">
+              PREVENTIVE HEALTHCARE
+            </span>
+            <h3 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-wider">
+              Diagnostic & Wellness Packages
+            </h3>
+            <div className="h-1 w-16 bg-cyan-brand mx-auto"></div>
+            <p className="text-[10.5px] text-slate-500 dark:text-slate-400 font-medium">
+              Schedule preventive laboratory checks and comprehensive screening sessions with special pricing.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {packages.map((pkg, i) => (
+              <div key={i} className="bg-slate-50 dark:bg-slate-800/40 border border-slate-150/60 dark:border-slate-800/60 p-5 rounded-2xl flex flex-col justify-between shadow-sm hover:shadow-md transition-all duration-300 h-full">
+                <div className="space-y-3.5">
+                  <div className="flex justify-between items-start">
+                    <span className="px-2 py-0.5 bg-cyan-50 dark:bg-cyan-950/20 text-cyan-brand dark:text-cyan-400 font-black text-[9px] uppercase tracking-wider rounded-md border border-cyan-100 dark:border-cyan-950">
+                      {pkg.tests}
+                    </span>
+                    <span className="text-lg font-black text-slate-800 dark:text-white">
+                      {pkg.price}
+                    </span>
+                  </div>
+                  
+                  <h4 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider leading-none">
+                    {pkg.title}
+                  </h4>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
+                    {pkg.details}
+                  </p>
+                </div>
+
+                <div className="pt-5 border-t border-slate-200/50 dark:border-slate-800/50 mt-4">
+                  <button
+                    onClick={() => handleBookPackage(pkg.title)}
+                    className="w-full py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:border-cyan-brand/20 dark:hover:border-cyan-brand/20 text-cyan-brand dark:text-cyan-400 font-extrabold text-[9px] uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <span>Schedule Checkup</span>
+                    <ArrowRight className="h-3 w-3" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 3. Technology & Infrastructure Showcase */}
+        <div className="pt-10 space-y-8 border-t border-slate-100 dark:border-slate-800/80">
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <span className="text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest block">
+              OUR INFRASTRUCTURE
+            </span>
+            <h3 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-wider">
+              Diagnostic & Clinical Facilities
+            </h3>
+            <div className="h-1 w-16 bg-cyan-brand mx-auto"></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {labs.map((lab, i) => {
+              const LabIcon = lab.icon;
+              return (
+                <div key={i} className="flex gap-4">
+                  <div className="p-2.5 rounded-xl bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-100 dark:border-cyan-950 text-cyan-brand dark:text-cyan-400 shrink-0 h-10 w-10 flex items-center justify-center">
+                    <LabIcon className="h-5 w-5" />
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="text-xs font-black text-slate-850 dark:text-white uppercase tracking-wider leading-none">
+                      {lab.title}
+                    </h4>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
+                      {lab.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
       </div>

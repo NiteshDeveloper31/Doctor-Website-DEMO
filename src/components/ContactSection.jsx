@@ -5,7 +5,7 @@ export default function ContactSection() {
   const contactDetails = [
     {
       title: "Hospital Address",
-      info: "Medico Life Campus, Block B, Sector 62, Noida, Uttar Pradesh - 201301, India",
+      info: "Aarogya Life Campus, Block B, Sector 62, Noida, Uttar Pradesh - 201301, India",
       icon: MapPin,
       color: "text-blue-500 bg-blue-50 dark:bg-blue-950/20"
     },
@@ -17,13 +17,13 @@ export default function ContactSection() {
     },
     {
       title: "General OPD Enquiries",
-      info: "+91 1800 123 456 (Toll-Free Helpline)",
+      info: "1800-200-6000 (Toll-Free Helpline)",
       icon: Phone,
       color: "text-emerald-500 bg-emerald-50 dark:bg-emerald-950/20"
     },
     {
       title: "Support & Records",
-      info: "opd.support@medicolife.in / records@medicolife.in",
+      info: "opd.support@aarogyalife.in / records@aarogyalife.in",
       icon: Mail,
       color: "text-purple-500 bg-purple-50 dark:bg-purple-950/20"
     }
@@ -39,7 +39,7 @@ export default function ContactSection() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Connect With Medico Life
+            Connect With Aarogya Life
           </h2>
           <p className="mt-2 text-slate-500 dark:text-slate-400">
             Reach out to our emergency support desk or walk into our sector-62 Noida campus.
@@ -110,9 +110,9 @@ export default function ContactSection() {
           <div className="lg:col-span-6 glass-panel p-4 rounded-3xl border border-slate-200/50 dark:border-slate-800/50 shadow-lg flex flex-col min-h-[18rem]">
             {/* Title */}
             <div className="flex justify-between items-center px-2 pb-3 mb-2 border-b border-slate-100 dark:border-slate-850">
-              <span className="text-xs font-bold text-slate-850 dark:text-slate-200 flex items-center gap-1.5">
+              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
                 <Award className="h-4.5 w-4.5 text-medical-500" />
-                <span>Medico Life Campus Guide</span>
+                <span>Aarogya Life Campus Guide</span>
               </span>
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
             </div>

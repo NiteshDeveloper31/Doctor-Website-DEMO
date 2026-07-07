@@ -28,7 +28,7 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
             </div>
             <div>
               <span className="text-2xl font-black tracking-tight text-slate-800 dark:text-white group-hover:text-cyan-brand transition-colors">
-                MEDICO
+                AAROGYA
               </span>
               <span className="block text-[9px] font-bold uppercase tracking-widest text-slate-400 leading-none">
                 LIFE HOSPITAL
@@ -62,11 +62,11 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
           <div className="hidden lg:flex items-center gap-4">
             {/* Light blue/grey hotline pill */}
             <a
-              href="tel:+911800123456"
+              href="tel:18002006000"
               className="flex items-center gap-2 px-4 py-2 bg-[#e8f4fd] dark:bg-slate-800/80 text-[#436577] dark:text-[#93b3c3] rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200"
             >
               <PhoneCall className="h-3.5 w-3.5" />
-              <span className="text-[10px] font-extrabold whitespace-nowrap">24/7 Helpline: 1800-123-456</span>
+              <span className="text-[10px] font-extrabold whitespace-nowrap">24/7 Helpline: 1800-200-6000</span>
             </a>
 
             {/* Dark Mode Toggle */}
@@ -127,11 +127,11 @@ export default function Navbar({ darkMode, setDarkMode, activeSection, scrollToS
 
           {/* Mobile Hotline */}
           <a
-            href="tel:+911800123456"
+            href="tel:18002006000"
             className="flex items-center justify-center gap-3.5 w-full py-3.5 bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-450 border border-rose-200 dark:border-rose-900/50 rounded-xl font-extrabold text-xs"
           >
             <PhoneCall className="h-4 w-4" />
-            <span>Emergency: 1800-123-456</span>
+            <span>Emergency: 1800-200-6000</span>
           </a>
         </div>
       )}

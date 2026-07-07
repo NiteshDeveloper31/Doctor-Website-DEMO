@@ -39,12 +39,12 @@ export default function Footer({ scrollToSection }) {
               <div className="bg-cyan-brand text-white p-2 rounded-full h-9 w-9 flex items-center justify-center">
                 <HeartPulse className="h-5 w-5" />
               </div>
-              <span className="text-xl font-black text-slate-850 dark:text-white tracking-tight">
-                MEDICO
+              <span className="text-xl font-black text-slate-800 dark:text-white tracking-tight">
+                AAROGYA
               </span>
             </div>
             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-              Medico Life Hospital Group is committed to providing outstanding medical treatments, advanced diagnostics, and compassionate clinical care. Certified by NABH India.
+              Aarogya Life Hospital is committed to providing outstanding medical treatments, advanced diagnostics, and compassionate clinical care. Certified by NABH India.
             </p>
           </div>
 
@@ -84,11 +84,11 @@ export default function Footer({ scrollToSection }) {
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="h-4 w-4 text-slate-450 shrink-0" />
-                <span>+91 1800 123 456</span>
+                <span>1800-200-6000 (Toll-Free)</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 text-slate-450 shrink-0" />
-                <span>info@medicolife.in</span>
+                <span>info@aarogyalife.in</span>
               </li>
             </ul>
 
@@ -161,7 +161,7 @@ export default function Footer({ scrollToSection }) {
         {/* Footer bottom bar */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] text-slate-400 font-medium">
           <div>
-            &copy; {currentYear} Medico Life Hospital Group. All rights reserved.
+            &copy; {currentYear} Aarogya Life Hospital. All rights reserved.
           </div>
           
           <div className="flex items-center gap-3">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import hospitalHero from '../assets/surgeon_hero.jpg';
 
-export default function Hero({ doctors = [], selectedDoctor, setSelectedDoctor, onBookingSubmit }) {
+export default function Hero({ doctors = [], selectedDoctor, setSelectedDoctor, onBookingSubmit, scrollToSection }) {
   const [formData, setFormData] = useState({
     doctorId: '',
     patientName: '',
@@ -97,39 +97,58 @@ export default function Hero({ doctors = [], selectedDoctor, setSelectedDoctor, 
   };
 
   return (
-    <section id="home" className="w-full relative bg-slate-50 dark:bg-slate-955 pb-20">
+    <section id="home" className="w-full bg-slate-50 dark:bg-slate-955 pb-10 md:pb-20">
       
-      {/* 1. Full-Width Surgeon Banner Image */}
-      <div className="relative w-full h-[360px] md:h-[420px] overflow-hidden">
-        {/* Background Image */}
-        <img
-          src={hospitalHero}
-          alt="Medico Hospital Building"
-          className="w-full h-full object-cover object-center absolute inset-0"
-        />
-        {/* Light/Dark horizontal gradient overlay */}
-        <div className="absolute inset-y-0 left-0 w-full md:w-[55%] bg-gradient-to-r from-slate-50/85 via-slate-50/40 to-transparent dark:from-slate-900/85 dark:via-slate-900/40 dark:to-transparent"></div>
-
-        {/* Text Overlays */}
-        <div className="absolute inset-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-start gap-2.5 z-10 pb-16">
-          
+      {/* 1. Hero Content Area - Stacks on mobile, Overlays on desktop */}
+      <div className="flex flex-col md:relative md:block w-full md:h-[420px] overflow-hidden bg-white dark:bg-slate-900 md:bg-transparent">
+        
+        {/* Mobile Text Block (Rendered first on mobile, hidden on desktop) */}
+        <div className="px-4 py-8 space-y-3.5 md:hidden text-left bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
           <span className="text-[10px] font-bold text-cyan-brand dark:text-cyan-400 uppercase tracking-widest leading-none">
             EXCELLENCE IN CARE & HEALING
           </span>
-
-          <h1 className="text-2xl sm:text-3xl md:text-[40px] font-black text-[#132d43] dark:text-white leading-tight max-w-xl">
+          <h1 className="text-2xl font-black text-slate-800 dark:text-white leading-tight">
             ADVANCED HEALTHCARE AND COMPASSIONATE TREATMENT.
           </h1>
-
-          <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 max-w-lg font-medium">
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             Empowering Lives Through Latest Medical Expertise and Personalized Care.
           </p>
-
+          <button
+            onClick={() => scrollToSection('booking')}
+            className="w-full py-3 bg-cyan-brand hover:bg-cyan-600 text-white font-extrabold text-[10px] uppercase tracking-widest rounded-xl shadow-md transition-all active:scale-[0.98] cursor-pointer"
+          >
+            Book Appointment
+          </button>
         </div>
+
+        {/* Hero Image Block - Background on desktop, standalone block on mobile */}
+        <div className="relative w-full h-[220px] md:h-full md:absolute md:inset-0">
+          <img
+            src={hospitalHero}
+            alt="Medico Hospital Building"
+            className="w-full h-full object-cover object-center"
+          />
+          {/* Light/Dark horizontal gradient overlay - Shown only on desktop */}
+          <div className="hidden md:block absolute inset-y-0 left-0 w-[55%] bg-gradient-to-r from-slate-50/85 via-slate-50/40 to-transparent dark:from-slate-900/85 dark:via-slate-900/40 dark:to-transparent"></div>
+        </div>
+
+        {/* Desktop Text Overlay (Hidden on mobile) */}
+        <div className="hidden md:flex absolute inset-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-col justify-center items-start gap-2.5 z-10 pb-16">
+          <span className="text-[10px] font-bold text-cyan-brand dark:text-cyan-400 uppercase tracking-widest leading-none">
+            EXCELLENCE IN CARE & HEALING
+          </span>
+          <h1 className="text-3xl md:text-[40px] font-black text-[#132d43] dark:text-white leading-tight max-w-xl">
+            ADVANCED HEALTHCARE AND COMPASSIONATE TREATMENT.
+          </h1>
+          <p className="text-sm md:text-base text-slate-650 dark:text-slate-300 max-w-lg font-medium">
+            Empowering Lives Through Latest Medical Expertise and Personalized Care.
+          </p>
+        </div>
+
       </div>
 
       {/* 2. Floating white booking card overlay (Clean 3x2 Grid) */}
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 z-20">
+      <div className="hidden md:block relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 z-20">
         <div 
           id="booking" 
           className="bg-white dark:bg-slate-900 rounded-2xl shadow-[0_15px_50px_rgba(0,0,0,0.06)] dark:shadow-[0_15px_50px_rgba(0,0,0,0.35)] border border-slate-100 dark:border-slate-800 p-5 md:p-7 scroll-mt-24"

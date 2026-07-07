@@ -11,6 +11,8 @@ import LatestNews from './components/LatestNews';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import Specialties from './components/Specialties';
+import WhyChooseUs from './components/WhyChooseUs';
+import BookingFormPage from './components/BookingFormPage';
 
 import { doctorsData } from './data/doctors';
 import { initialAppointments } from './data/appointments';
@@ -45,47 +47,11 @@ export default function App() {
     }
   }, [darkMode]);
 
-  // Smooth scroll handler
+  // Page Navigation / Router Handler
   const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setActiveSection(id);
-    }
+    setActiveSection(id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  // Intersection Observer for smooth, lag-free active navigation tracking
-  useEffect(() => {
-    const sections = ['home', 'specialties', 'doctors', 'contact'];
-    
-    const observerOptions = {
-      root: null, // Viewport
-      rootMargin: '-30% 0px -60% 0px', // Focus middle region of the page
-      threshold: 0
-    };
-
-    const observerCallback = (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    sections.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => {
-      sections.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) observer.unobserve(el);
-      });
-    };
-  }, []);
 
   // Filter Doctors list based on search and specialty
   const filteredDoctors = doctors.filter(doctor => {
@@ -102,10 +68,10 @@ export default function App() {
     scrollToSection('booking');
   };
 
-  // Handle specialty routing from Latest News -> sets category filter and scrolls directly to booking form input stripe
+  // Handle specialty routing from Latest News -> sets category filter and redirects to doctors directory
   const handleSelectSpecialtyFromNews = (specialty) => {
     setSelectedSpecialty(specialty);
-    scrollToSection('booking');
+    scrollToSection('doctors');
   };
 
   // Create appointment handler
@@ -256,81 +222,110 @@ ${newAppointment.reason}
         scrollToSection={scrollToSection}
       />
 
-      {/* Hero Banner with Integrated Quick Booking stripe */}
-      <Hero 
-        doctors={doctors}
-        selectedDoctor={selectedDoctorForBooking}
-        setSelectedDoctor={setSelectedDoctorForBooking}
-        onBookingSubmit={handleCreateAppointment}
-      />
-
-      {/* 4-column Services features directly under Hero */}
-      <FeatureGrid />
-
-      {/* Specialties section */}
-      <Specialties 
-        onSelectSpecialty={handleSelectSpecialtyFromNews} 
-        scrollToSection={scrollToSection} 
-      />
-
-      {/* Core Doctors Directory Container */}
-      <section id="doctors" className="py-16 bg-slate-50/50 dark:bg-slate-950/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          
-          {/* Header */}
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h2 className="text-2xl font-black text-slate-800 dark:text-white uppercase tracking-wider">
-              Our Doctors
-            </h2>
-            <div className="h-1 w-16 bg-cyan-brand mx-auto"></div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 pt-1">
-              Browse through our team of highly accredited medical consultants and schedule immediate visits.
-            </p>
-          </div>
-
-          {/* Search filters */}
-          <DoctorSearch 
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            selectedSpecialty={selectedSpecialty}
-            setSelectedSpecialty={setSelectedSpecialty}
+      {/* Conditionally render different pages */}
+      {activeSection === 'home' && (
+        <>
+          {/* Hero Banner with Integrated Quick Booking stripe */}
+          <Hero 
+            doctors={doctors}
+            selectedDoctor={selectedDoctorForBooking}
+            setSelectedDoctor={setSelectedDoctorForBooking}
+            onBookingSubmit={handleCreateAppointment}
+            scrollToSection={scrollToSection}
           />
 
-          {/* Doctors Grid */}
-          {filteredDoctors.length === 0 ? (
-            <div className="text-center py-20 bg-white dark:bg-slate-900 rounded border border-dashed border-slate-200 dark:border-slate-800">
-              <p className="text-slate-550 dark:text-slate-400 font-semibold text-sm">
-                No specialists found matching your current filter criteria.
-              </p>
-              <button 
-                onClick={() => { setSearchQuery(""); setSelectedSpecialty("All"); }}
-                className="mt-3 text-xs font-bold text-cyan-brand hover:underline"
-              >
-                Reset Search Filters
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredDoctors.map(doctor => (
-                <DoctorCard 
-                  key={doctor.id}
-                  doctor={doctor}
-                  onSelectDoctor={handleSelectDoctorForBooking}
-                  onViewProfile={(doc) => setSelectedDoctorForModal(doc)}
-                />
-              ))}
-            </div>
-          )}
+          {/* 4-column Services features directly under Hero */}
+          <FeatureGrid />
 
+          {/* Detailed Statistics and Advantages panel */}
+          <WhyChooseUs />
+
+          {/* Latest Health News Articles */}
+          <LatestNews onSelectSpecialty={handleSelectSpecialtyFromNews} />
+        </>
+      )}
+
+      {activeSection === 'specialties' && (
+        <div className="min-h-[70vh]">
+          {/* Specialties section */}
+          <Specialties 
+            onSelectSpecialty={handleSelectSpecialtyFromNews} 
+            scrollToSection={scrollToSection} 
+          />
         </div>
-      </section>
+      )}
 
+      {activeSection === 'booking' && (
+        <BookingFormPage 
+          doctors={doctors}
+          selectedDoctor={selectedDoctorForBooking}
+          setSelectedDoctor={setSelectedDoctorForBooking}
+          onBookingSubmit={handleCreateAppointment}
+        />
+      )}
 
-      {/* Latest Health News Articles */}
-      <LatestNews onSelectSpecialty={handleSelectSpecialtyFromNews} />
+      {activeSection === 'doctors' && (
+        <section id="doctors" className="py-16 bg-slate-50/50 dark:bg-slate-955 min-h-[70vh]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            
+            {/* Header */}
+            <div className="text-center max-w-2xl mx-auto space-y-2">
+              <span className="text-[10px] font-black text-cyan-brand dark:text-cyan-400 uppercase tracking-widest leading-none">
+                OUR SPECIALISTS
+              </span>
+              <h2 className="text-2xl font-black text-slate-800 dark:text-white uppercase tracking-wider">
+                Our Doctors
+              </h2>
+              <div className="h-1 w-16 bg-cyan-brand mx-auto"></div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 pt-1">
+                Browse through our team of highly accredited medical consultants and schedule immediate visits.
+              </p>
+            </div>
 
-      {/* Hospital Coordinates section */}
-      <ContactSection />
+            {/* Search filters */}
+            <DoctorSearch 
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              selectedSpecialty={selectedSpecialty}
+              setSelectedSpecialty={setSelectedSpecialty}
+            />
+
+            {/* Doctors Grid */}
+            {filteredDoctors.length === 0 ? (
+              <div className="text-center py-20 bg-white dark:bg-slate-900 rounded border border-dashed border-slate-200 dark:border-slate-800">
+                <p className="text-slate-550 dark:text-slate-400 font-semibold text-sm">
+                  No specialists found matching your current filter criteria.
+                </p>
+                <button 
+                  onClick={() => { setSearchQuery(""); setSelectedSpecialty("All"); }}
+                  className="mt-3 text-xs font-bold text-cyan-brand hover:underline"
+                >
+                  Reset Search Filters
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredDoctors.map(doctor => (
+                  <DoctorCard 
+                    key={doctor.id}
+                    doctor={doctor}
+                    onSelectDoctor={handleSelectDoctorForBooking}
+                    onViewProfile={(doc) => setSelectedDoctorForModal(doc)}
+                  />
+                ))}
+              </div>
+            )}
+
+          </div>
+        </section>
+      )}
+
+      {activeSection === 'contact' && (
+        <div className="min-h-[70vh]">
+          {/* Hospital Coordinates section */}
+          <ContactSection />
+        </div>
+      )}
 
       {/* Footer disclaimer */}
       <Footer scrollToSection={scrollToSection} />
